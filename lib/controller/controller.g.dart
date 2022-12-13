@@ -54,6 +54,21 @@ mixin _$Controller on _Controller, Store {
     });
   }
 
+  late final _$indexAtom = Atom(name: '_Controller.index', context: context);
+
+  @override
+  dynamic get index {
+    _$indexAtom.reportRead();
+    return super.index;
+  }
+
+  @override
+  set index(dynamic value) {
+    _$indexAtom.reportWrite(value, super.index, () {
+      super.index = value;
+    });
+  }
+
   late final _$_ControllerActionController = ActionController(name: '_Controller', context: context);
 
   @override
@@ -67,11 +82,32 @@ mixin _$Controller on _Controller, Store {
   }
 
   @override
+  void editAction() {
+    final _$actionInfo = _$_ControllerActionController.startAction(name: '_Controller.editAction');
+    try {
+      return super.editAction();
+    } finally {
+      _$_ControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeAction() {
+    final _$actionInfo = _$_ControllerActionController.startAction(name: '_Controller.removeAction');
+    try {
+      return super.removeAction();
+    } finally {
+      _$_ControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 noteName: ${noteName},
 noteBody: ${noteBody},
-notes: ${notes}
+notes: ${notes},
+index: ${index}
     ''';
   }
 }
