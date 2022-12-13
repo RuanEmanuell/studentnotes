@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import "screens/add.dart";
 
 import 'controller/controller.dart';
+
+var controller = Controller();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => Controller())],
-      child: MaterialApp(home: MyApp())));
-}
-
-class MyApp extends StatelessWidget{
-  @override
-  Widget build(BuildContext context){
-    return Scaffold();
-  }
+  runApp(MaterialApp(home: AddScreen()));
 }
