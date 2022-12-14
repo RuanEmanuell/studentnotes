@@ -1,40 +1,33 @@
-import 'package:mobx/mobx.dart';
+import "package:flutter/material.dart";
 
-part 'controller.g.dart';
-
-class Controller = _Controller with _$Controller;
-
-abstract class _Controller with Store {
-  @observable
+class Controller extends ChangeNotifier {
   String noteName = "";
 
-  @observable
   String noteBody = "";
 
-  @observable
-  List<dynamic> notes = [[], []];
+  late String noteDate;
 
-  @observable
+  List<dynamic> notes = [[], [], []];
+
   var index;
 
-  @action
   void createAction() {
+    noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     notes[0].add(noteName);
     notes[1].add(noteBody);
-    print(notes);
+    notes[2].add(noteDate);
+    notifyListeners();
   }
 
-  @action
-  void editAction() {
+  void editAction(index) {
     notes[0][index] = noteName;
     notes[1][index] = noteBody;
-    print(notes);
+    notifyListeners();
   }
 
-  @action
-  void removeAction() {
+  void removeAction(index) {
     notes[0].remove(notes[0][index]);
     notes[1].remove(notes[1][index]);
-    print(notes);
+    notifyListeners();
   }
 }

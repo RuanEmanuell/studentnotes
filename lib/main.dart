@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import "screens/add.dart";
+import 'package:provider/provider.dart';
 
 import 'controller/controller.dart';
-
-var controller = Controller();
+import 'screens/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(MaterialApp(home: AddScreen()));
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => Controller())],
+      child: MaterialApp(home: HomeScreen())));
 }
