@@ -4,11 +4,17 @@ import "../controller/controller.dart";
 import "home.dart";
 
 class AddScreen extends StatelessWidget {
+  var titleController = TextEditingController();
+  var noteController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
+
+    controller.titleController = titleController;
+    controller.noteController = noteController;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         body: SingleChildScrollView(
@@ -17,27 +23,26 @@ class AddScreen extends StatelessWidget {
                     children: [
                       SafeArea(
                         child: TextField(
+                          controller: titleController,
                           decoration: const InputDecoration(
                               labelText: "Note Title",
                               labelStyle: TextStyle(color: Colors.brown),
                               border: InputBorder.none),
                           style: const TextStyle(fontSize: 25),
                           onChanged: (newValue) {
-                            value.noteName = newValue;
+                            value.noteName = titleController.text;
                           },
                         ),
                       ),
-                      for (var i = 0; i < controller.textNote.length; i++)
+                      for (var i = 0; i < controller.textNote; i++)
                         TextField(
+                          controller: noteController,
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: const InputDecoration(
                               labelText: "Your note here...",
                               labelStyle: TextStyle(color: Colors.brown),
                               border: InputBorder.none),
-                          onChanged: (value) {
-                            controller.noteBody[i] = value;
-                          },
                         )
                     ],
                   ))),
@@ -86,12 +91,16 @@ class AddScreen extends StatelessWidget {
                 child: IconButton(
                     icon: const Icon(Icons.check, size: 30),
                     onPressed: () {
+                      controller.noteDate =
+                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                      controller.noteBody.add(noteController.text);
                       controller.createAction();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ));
+                      controller.resetAction();
                     }),
               ),
             ],

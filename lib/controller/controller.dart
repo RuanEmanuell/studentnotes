@@ -3,24 +3,25 @@ import "package:flutter/material.dart";
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  List noteBody = [[], []];
+  List noteBody = [];
 
-  late String noteDate;
+  String noteDate = "";
 
-  List<dynamic> notes = [[], [], []];
+  List<dynamic> notes = [];
 
-  List textNote = ["note"];
-  List drawNote = [];
-  List photoNote = [];
-  List audioNote = [];
+  int textNote = 1;
+  int drawNote = 0;
+  int photoNote = 0;
+  int audioNote = 0;
+
+  var titleController;
+  var noteController;
 
   var index;
 
   void createAction() {
-    noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-    notes[0].add(noteName);
-    notes[1].add(noteBody);
-    notes[2].add(noteDate);
+    notes.add([noteName, noteBody, noteDate]);
+    print(notes);
     notifyListeners();
   }
 
@@ -31,13 +32,26 @@ class Controller extends ChangeNotifier {
   }
 
   void removeAction(index) {
-    notes[0].remove(notes[0][index]);
-    notes[1].remove(notes[1][index]);
+    notes.remove(notes[index]);
+    print(notes);
     notifyListeners();
   }
 
   void newNoteAction() {
-    textNote.add("note");
+    textNote++;
+    notifyListeners();
+  }
+
+  void resetAction() {
+    titleController.text = "";
+    noteController.text = "";
+    noteName = "";
+    noteBody = [];
+    noteDate = "";
+    textNote = 1;
+    drawNote = 0;
+    photoNote = 0;
+    audioNote = 0;
     notifyListeners();
   }
 }

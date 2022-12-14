@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 238, 88),
       body: Consumer<Controller>(
-        builder: (context, value, child) => value.notes[0].isEmpty
+        builder: (context, value, child) => value.notes.isEmpty
             ? const Center(child: Text("Your notes will be displayed here..."))
             : Column(
                 children: [
@@ -21,12 +21,12 @@ class HomeScreen extends StatelessWidget {
                     height: screenHeight,
                     child: GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                        itemCount: Provider.of<Controller>(context, listen: false).notes[0].length,
+                        itemCount: Provider.of<Controller>(context, listen: false).notes.length,
                         itemBuilder: (context, index) {
                           return Container(
                             margin: const EdgeInsets.all(20),
                             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                              Text(value.notes[2][index]),
+                              Text(value.notes[index][2]),
                               const SizedBox(height: 10),
                               InkWell(
                                 onTap: () {
@@ -47,12 +47,12 @@ class HomeScreen extends StatelessWidget {
                                     child: Container(
                                       padding: const EdgeInsets.all(10),
                                       child: Column(children: [
-                                        Text(value.notes[0][index],
+                                        Text(value.notes[index][0],
                                             overflow: TextOverflow.ellipsis,
                                             style: const TextStyle(fontSize: 25)),
                                         const SizedBox(height: 10),
                                         Text(
-                                          value.notes[1][index][0],
+                                          value.notes[index][1][0],
                                           overflow: TextOverflow.ellipsis,
                                         )
                                       ]),

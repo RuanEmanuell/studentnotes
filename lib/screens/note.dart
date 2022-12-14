@@ -31,7 +31,7 @@ class NoteScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      for (var i = 0; i < controller.textNote.length; i++)
+                      for (var i = 0; i < controller.textNote; i++)
                         TextField(
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
