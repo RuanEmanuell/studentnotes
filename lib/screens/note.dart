@@ -3,7 +3,11 @@ import 'package:provider/provider.dart';
 import "../controller/controller.dart";
 import "home.dart";
 
-class AddScreen extends StatelessWidget {
+class NoteScreen extends StatelessWidget {
+  var index;
+
+  NoteScreen({required this.index});
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -60,7 +64,7 @@ class AddScreen extends StatelessWidget {
                         child: IconButton(
                             icon: const Icon(Icons.abc, size: 30),
                             onPressed: () {
-                              controller.newNoteAction();
+                              controller.editAction(index);
                             }),
                       ),
                       Expanded(

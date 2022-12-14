@@ -3,11 +3,16 @@ import "package:flutter/material.dart";
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  String noteBody = "";
+  List noteBody = [[], []];
 
   late String noteDate;
 
   List<dynamic> notes = [[], [], []];
+
+  List textNote = ["note"];
+  List drawNote = [];
+  List photoNote = [];
+  List audioNote = [];
 
   var index;
 
@@ -28,6 +33,11 @@ class Controller extends ChangeNotifier {
   void removeAction(index) {
     notes[0].remove(notes[0][index]);
     notes[1].remove(notes[1][index]);
+    notifyListeners();
+  }
+
+  void newNoteAction() {
+    textNote.add("note");
     notifyListeners();
   }
 }

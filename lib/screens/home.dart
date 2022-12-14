@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                                             style: const TextStyle(fontSize: 25)),
                                         const SizedBox(height: 10),
                                         Text(
-                                          value.notes[1][index],
+                                          value.notes[1][index][0],
                                           overflow: TextOverflow.ellipsis,
                                         )
                                       ]),
@@ -60,11 +60,10 @@ class HomeScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      value.removeAction(index);
-                                    }
-                              )
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    value.removeAction(index);
+                                  }),
                             ]),
                           );
                         }),
