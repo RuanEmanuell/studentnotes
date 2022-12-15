@@ -3,12 +3,7 @@ import 'package:provider/provider.dart';
 import "../controller/controller.dart";
 import "home.dart";
 
-class AddScreen extends StatefulWidget {
-  @override
-  State<AddScreen> createState() => _AddScreenState();
-}
-
-class _AddScreenState extends State<AddScreen> {
+class AddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -44,7 +39,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       for (var i = 0; i < value.noteBody.length; i++)
                         Row(children: [
-                          Container(
+                          SizedBox(
                             width: screenWidth / 1.2,
                             child: TextFormField(
                               keyboardType: TextInputType.multiline,
@@ -60,17 +55,20 @@ class _AddScreenState extends State<AddScreen> {
                               },
                             ),
                           ),
-                          IconButton(
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                value.removeSingleNoteAction(i);
-                              }),
+                          if (value.noteBody.length > 1)
+                            IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  value.removeSingleNoteAction(i);
+                                }),
                         ])
                     ],
                   ))),
         ),
         bottomNavigationBar: Container(
           color: Colors.yellow[200],
+          padding: MediaQuery.of(context).viewInsets,
           child: Row(
             children: [
               Container(
@@ -87,6 +85,7 @@ class _AddScreenState extends State<AddScreen> {
                         child: IconButton(
                             icon: const Icon(Icons.abc, size: 30),
                             onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
                               controller.newNoteAction();
                             }),
                       ),

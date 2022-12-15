@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import "../controller/controller.dart";
 import 'add.dart';
-import 'note.dart';
+import 'edit.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => NoteScreen(index: index)));
+                                            builder: (context) => EditScreen(index: index)));
                                   },
                                   child: Container(
                                       width: screenWidth / 2,
