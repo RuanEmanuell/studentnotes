@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  List noteBody = [];
+  List noteBody = [[]];
 
   String noteDate = "";
 
@@ -13,9 +13,6 @@ class Controller extends ChangeNotifier {
   int drawNote = 0;
   int photoNote = 0;
   int audioNote = 0;
-
-  var titleController;
-  var noteController;
 
   var index;
 
@@ -39,14 +36,13 @@ class Controller extends ChangeNotifier {
 
   void newNoteAction() {
     textNote++;
+    noteBody.add([]);
     notifyListeners();
   }
 
   void resetAction() {
-    titleController.text = "";
-    noteController.text = "";
     noteName = "";
-    noteBody = [];
+    noteBody = [[]];
     noteDate = "";
     textNote = 1;
     drawNote = 0;
