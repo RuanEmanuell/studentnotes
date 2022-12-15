@@ -3,24 +3,38 @@ import 'package:provider/provider.dart';
 import "../controller/controller.dart";
 import "home.dart";
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends StatefulWidget {
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
-
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
+        appBar: AppBar(
+          backgroundColor: Colors.yellow[200],
+          elevation: 0,
+          leading: IconButton(
+              icon: const Icon(Icons.close, size: 30, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+        ),
         body: SingleChildScrollView(
           child: Consumer<Controller>(
               builder: ((context, value, child) => Column(
                     children: [
                       SafeArea(
-                        child: TextField(
+                        child: TextFormField(
                           decoration: const InputDecoration(
                               labelText: "Note Title",
                               labelStyle: TextStyle(color: Colors.brown),
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
                               border: InputBorder.none),
                           style: const TextStyle(fontSize: 25),
                           onChanged: (newValue) {
@@ -28,18 +42,30 @@ class AddScreen extends StatelessWidget {
                           },
                         ),
                       ),
-                      for (var i = 0; i < controller.textNote; i++)
-                        TextField(
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          decoration: const InputDecoration(
-                              labelText: "Your note here...",
-                              labelStyle: TextStyle(color: Colors.brown),
-                              border: InputBorder.none),
-                          onChanged: (newValue) {
-                            value.noteBody[i] = newValue;
-                          },
-                        )
+                      for (var i = 0; i < value.noteBody.length; i++)
+                        Row(children: [
+                          Container(
+                            width: screenWidth / 1.2,
+                            child: TextFormField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: TextEditingController(text: value.noteBody[i]),
+                              decoration: const InputDecoration(
+                                  labelText: "Your note here...",
+                                  labelStyle: TextStyle(color: Colors.brown),
+                                  floatingLabelBehavior: FloatingLabelBehavior.never,
+                                  border: InputBorder.none),
+                              onChanged: (newValue) {
+                                value.noteBody[i] = newValue;
+                              },
+                            ),
+                          ),
+                          IconButton(
+                              icon: const Icon(Icons.delete),
+                              onPressed: () {
+                                value.removeSingleNoteAction(i);
+                              }),
+                        ])
                     ],
                   ))),
         ),
@@ -63,6 +89,9 @@ class AddScreen extends StatelessWidget {
                             onPressed: () {
                               controller.newNoteAction();
                             }),
+                      ),
+                      Expanded(
+                        child: IconButton(icon: const Icon(Icons.check_box, size: 30), onPressed: () {}),
                       ),
                       Expanded(
                         child: IconButton(icon: const Icon(Icons.draw, size: 30), onPressed: () {}),
@@ -95,7 +124,6 @@ class AddScreen extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ));
-                      controller.resetAction();
                     }),
               ),
             ],

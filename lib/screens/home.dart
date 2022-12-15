@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Consumer<Controller>(
           builder: (context, value, child) => value.notes.isEmpty
-              ? const Center(child: Text("Your notes will be displayed here..."))
+              ? Center(child: Text("Your notes will be displayed here..."))
               : Column(
                   children: [
                     SizedBox(
@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                                 IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      value.removeAction(index);
+                                      value.removeFullNoteAction(index);
                                     }),
                               ]),
                             );
@@ -88,6 +88,7 @@ class HomeScreen extends StatelessWidget {
           child: IconButton(
               icon: const Icon(Icons.add),
               onPressed: () {
+                Provider.of<Controller>(context, listen: false).resetAction();
                 Navigator.push(
                     context,
                     MaterialPageRoute(

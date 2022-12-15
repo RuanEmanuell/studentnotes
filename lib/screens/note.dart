@@ -16,6 +16,15 @@ class NoteScreen extends StatelessWidget {
 
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
+        appBar: AppBar(
+          backgroundColor: Colors.yellow[200],
+          elevation: 0,
+          leading: IconButton(
+              icon: const Icon(Icons.close, size: 30, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+        ),
         body: SingleChildScrollView(
           child: Consumer<Controller>(
               builder: ((context, value, child) => Column(
@@ -26,6 +35,7 @@ class NoteScreen extends StatelessWidget {
                           decoration: const InputDecoration(
                               labelText: "Note Title",
                               labelStyle: TextStyle(color: Colors.brown),
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
                               border: InputBorder.none),
                           style: const TextStyle(fontSize: 25),
                           onChanged: (newValue) {
@@ -41,6 +51,7 @@ class NoteScreen extends StatelessWidget {
                           decoration: const InputDecoration(
                               labelText: "Your note here...",
                               labelStyle: TextStyle(color: Colors.brown),
+                              floatingLabelBehavior: FloatingLabelBehavior.never,
                               border: InputBorder.none),
                           onChanged: (newValue) {
                             value.noteBody[i] = newValue;
@@ -101,7 +112,6 @@ class NoteScreen extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ));
-                      controller.resetAction();
                     }),
               ),
             ],
