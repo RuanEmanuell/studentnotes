@@ -22,9 +22,17 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  void loadNoteAction(index) {
+    textNote = notes[index][1].length;
+    noteName = notes[index][0];
+    noteBody = notes[index][1];
+    print(notes);
+    notifyListeners();
+  }
+
   void editAction(index) {
-    notes[0][index] = noteName;
-    notes[1][index] = noteBody;
+    notes[index][0] = noteName;
+    notes[index][1] = noteBody;
     notifyListeners();
   }
 
@@ -36,7 +44,8 @@ class Controller extends ChangeNotifier {
 
   void newNoteAction() {
     textNote++;
-    noteBody.add([]);
+    noteBody.add("");
+    print(noteBody);
     notifyListeners();
   }
 

@@ -38,7 +38,6 @@ class AddScreen extends StatelessWidget {
                               border: InputBorder.none),
                           onChanged: (newValue) {
                             value.noteBody[i] = newValue;
-                            print(value.noteBody);
                           },
                         )
                     ],

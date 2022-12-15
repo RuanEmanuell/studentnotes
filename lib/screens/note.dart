@@ -13,6 +13,7 @@ class NoteScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
+
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         body: SingleChildScrollView(
@@ -20,7 +21,8 @@ class NoteScreen extends StatelessWidget {
               builder: ((context, value, child) => Column(
                     children: [
                       SafeArea(
-                        child: TextField(
+                        child: TextFormField(
+                          initialValue: value.noteName,
                           decoration: const InputDecoration(
                               labelText: "Note Title",
                               labelStyle: TextStyle(color: Colors.brown),
@@ -32,15 +34,16 @@ class NoteScreen extends StatelessWidget {
                         ),
                       ),
                       for (var i = 0; i < controller.textNote; i++)
-                        TextField(
+                        TextFormField(
+                          initialValue: value.noteBody[i],
                           keyboardType: TextInputType.multiline,
                           maxLines: null,
                           decoration: const InputDecoration(
                               labelText: "Your note here...",
                               labelStyle: TextStyle(color: Colors.brown),
                               border: InputBorder.none),
-                          onChanged: (value) {
-                            controller.noteBody[i] = value;
+                          onChanged: (newValue) {
+                            value.noteBody[i] = newValue;
                           },
                         )
                     ],
@@ -64,7 +67,7 @@ class NoteScreen extends StatelessWidget {
                         child: IconButton(
                             icon: const Icon(Icons.abc, size: 30),
                             onPressed: () {
-                              controller.editAction(index);
+                              controller.newNoteAction();
                             }),
                       ),
                       Expanded(
@@ -90,12 +93,15 @@ class NoteScreen extends StatelessWidget {
                 child: IconButton(
                     icon: const Icon(Icons.check, size: 30),
                     onPressed: () {
-                      controller.createAction();
+                      controller.noteDate =
+                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                      controller.editAction(index);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => HomeScreen(),
                           ));
+                      controller.resetAction();
                     }),
               ),
             ],
