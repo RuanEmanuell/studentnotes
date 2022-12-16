@@ -46,6 +46,11 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeDrawAction(index) {
+    noteBody.remove(noteBody[index]);
+    notifyListeners();
+  }
+
   void removeFullNoteAction(index) {
     notes.remove(notes[index]);
     notifyListeners();
@@ -54,6 +59,11 @@ class Controller extends ChangeNotifier {
   void newTextAction() {
     textNote++;
     noteBody.add([""]);
+    notifyListeners();
+  }
+
+  void newImage(image) {
+    noteBody.add(image);
     notifyListeners();
   }
 

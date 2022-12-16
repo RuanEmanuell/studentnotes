@@ -1,7 +1,11 @@
+import 'dart:typed_data';
+
+import 'package:alarme/screens/paint.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "../controller/controller.dart";
 import "home.dart";
+import 'image.dart';
 
 class EditScreen extends StatelessWidget {
   var index;
@@ -64,7 +68,7 @@ class EditScreen extends StatelessWidget {
                                 },
                               ),
                             ),
-                            if (value.textNote > 1)
+                            if (value.noteBody.length > 1 && value.noteBody[i][0] is String)
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () {
@@ -83,6 +87,7 @@ class EditScreen extends StatelessWidget {
                                     value.changeCheckAction(i);
                                   },
                                 )),
+                            SizedBox(width: screenWidth / 25),
                             IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
@@ -90,6 +95,30 @@ class EditScreen extends StatelessWidget {
                                   value.removeCheckAction(i);
                                 }),
                           ])
+                        else if (value.noteBody[i] is ByteData)
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ImageScreen(image: value.noteBody[i])));
+                              },
+                              child: Row(children: [
+                                Container(
+                                    margin: EdgeInsets.only(left: screenWidth / 25),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(width: 3, color: Colors.black)),
+                                    height: screenHeight / 2.5,
+                                    width: screenWidth / 1.2,
+                                    child: Image.memory(value.noteBody[i].buffer.asUint8List())),
+                                IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      value.removeDrawAction(i);
+                                    }),
+                              ])),
                     ],
                   ))),
         ),
@@ -145,14 +174,24 @@ class EditScreen extends StatelessWidget {
                             }),
                       ),
                       Expanded(
-                        child: IconButton(icon: const Icon(Icons.draw, size: 30), onPressed: () {}),
+                        child: IconButton(
+                            icon: const Icon(Icons.draw, size: 30),
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (context) {
+                                  return MyHomePage();
+                                },
+                              ));
+                            }),
                       ),
                       Expanded(
-                        child:
-                            IconButton(icon: const Icon(Icons.add_a_photo, size: 30), onPressed: () {}),
+                        child: IconButton(
+                            icon: const Icon(Icons.add_a_photo, size: 30, color: Colors.grey),
+                            onPressed: () {}),
                       ),
                       Expanded(
-                        child: IconButton(icon: const Icon(Icons.mic, size: 30), onPressed: () {}),
+                        child: IconButton(
+                            icon: const Icon(Icons.mic, size: 30, color: Colors.grey), onPressed: () {}),
                       ),
                     ],
                   )),
