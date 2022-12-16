@@ -3,27 +3,26 @@ import "package:flutter/material.dart";
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  List noteBody = [""];
+  List noteBody = [
+    [""]
+  ];
 
   String noteDate = "";
 
   List<dynamic> notes = [];
 
+  String checkName = "";
+
   int textNote = 1;
-  int drawNote = 0;
-  int photoNote = 0;
-  int audioNote = 0;
 
   var index;
 
   void createAction() {
     notes.add([noteName, noteBody, noteDate]);
-    print(notes);
     notifyListeners();
   }
 
   void loadNoteAction(index) {
-    textNote = notes[index][1].length;
     noteName = notes[index][0];
     noteBody = notes[index][1];
     notifyListeners();
@@ -33,13 +32,17 @@ class Controller extends ChangeNotifier {
     notes[index][0] = noteName;
     notes[index][1] = noteBody;
     notes[index][2] = noteDate;
-    print(notes);
     notifyListeners();
   }
 
-  void removeSingleNoteAction(index) {
+  void removeTextAction(index) {
     noteBody.remove(noteBody[index]);
     textNote--;
+    notifyListeners();
+  }
+
+  void removeCheckAction(index) {
+    noteBody.remove(noteBody[index]);
     notifyListeners();
   }
 
@@ -48,20 +51,29 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void newNoteAction() {
+  void newTextAction() {
     textNote++;
-    noteBody.add("");
+    noteBody.add([""]);
+    notifyListeners();
+  }
+
+  void newCheckAction() {
+    noteBody.add([checkName, false]);
+    print(noteBody);
+    notifyListeners();
+  }
+
+  void changeCheckAction(index) {
+    noteBody[index][1] = !noteBody[index][1];
     notifyListeners();
   }
 
   void resetAction() {
     noteName = "";
-    noteBody = [""];
+    noteBody = [
+      [""]
+    ];
     noteDate = "";
-    textNote = 1;
-    drawNote = 0;
-    photoNote = 0;
-    audioNote = 0;
     notifyListeners();
   }
 }

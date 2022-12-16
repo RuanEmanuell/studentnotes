@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Consumer<Controller>(
           builder: (context, value, child) => value.notes.isEmpty
-              ? Center(child: Text("Your notes will be displayed here..."))
+              ? const Center(child: Text("Your notes will be displayed here..."))
               : Column(
                   children: [
                     SizedBox(
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                                               style: const TextStyle(fontSize: 25)),
                                           const SizedBox(height: 10),
                                           Text(
-                                            value.notes[index][1][0],
+                                            value.notes[index][1][0][0],
                                             overflow: TextOverflow.ellipsis,
                                           )
                                         ]),

@@ -25,44 +25,67 @@ class AddScreen extends StatelessWidget {
               builder: ((context, value, child) => Column(
                     children: [
                       SafeArea(
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                              labelText: "Note Title",
-                              labelStyle: TextStyle(color: Colors.brown),
-                              floatingLabelBehavior: FloatingLabelBehavior.never,
-                              border: InputBorder.none),
-                          style: const TextStyle(fontSize: 25),
-                          onChanged: (newValue) {
-                            value.noteName = newValue;
-                          },
+                        child: Container(
+                          margin: EdgeInsets.only(left: screenWidth / 25),
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                                labelText: "Note Title",
+                                labelStyle: TextStyle(color: Colors.brown),
+                                floatingLabelBehavior: FloatingLabelBehavior.never,
+                                border: InputBorder.none),
+                            style: const TextStyle(fontSize: 25),
+                            onChanged: (newValue) {
+                              value.noteName = newValue;
+                            },
+                          ),
                         ),
                       ),
                       for (var i = 0; i < value.noteBody.length; i++)
-                        Row(children: [
-                          SizedBox(
-                            width: screenWidth / 1.2,
-                            child: TextFormField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              controller: TextEditingController(text: value.noteBody[i]),
-                              decoration: const InputDecoration(
-                                  labelText: "Your note here...",
-                                  labelStyle: TextStyle(color: Colors.brown),
-                                  floatingLabelBehavior: FloatingLabelBehavior.never,
-                                  border: InputBorder.none),
-                              onChanged: (newValue) {
-                                value.noteBody[i] = newValue;
-                              },
+                        if (value.noteBody[i].length == 1)
+                          Row(children: [
+                            Container(
+                              margin: EdgeInsets.only(left: screenWidth / 25),
+                              width: screenWidth / 1.2,
+                              child: TextFormField(
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                controller: TextEditingController(text: value.noteBody[i][0]),
+                                decoration: const InputDecoration(
+                                    labelText: "Your note here...",
+                                    labelStyle: TextStyle(color: Colors.brown),
+                                    floatingLabelBehavior: FloatingLabelBehavior.never,
+                                    border: InputBorder.none),
+                                onChanged: (newValue) {
+                                  value.noteBody[i][0] = newValue;
+                                },
+                              ),
                             ),
-                          ),
-                          if (value.noteBody.length > 1)
+                            if (value.noteBody.length > 1)
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    value.removeTextAction(i);
+                                  }),
+                          ])
+                        else if (value.noteBody[i].length == 2)
+                          Row(children: [
+                            SizedBox(
+                                width: screenWidth / 1.2,
+                                child: CheckboxListTile(
+                                  title: Text(value.noteBody[i][0]),
+                                  value: value.noteBody[i][1],
+                                  onChanged: (newValue) {
+                                    value.changeCheckAction(i);
+                                  },
+                                )),
                             IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeSingleNoteAction(i);
+                                  value.removeCheckAction(i);
                                 }),
-                        ])
+                          ])
                     ],
                   ))),
         ),
@@ -86,11 +109,36 @@ class AddScreen extends StatelessWidget {
                             icon: const Icon(Icons.abc, size: 30),
                             onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
-                              controller.newNoteAction();
+                              controller.newTextAction();
                             }),
                       ),
                       Expanded(
-                        child: IconButton(icon: const Icon(Icons.check_box, size: 30), onPressed: () {}),
+                        child: IconButton(
+                            icon: const Icon(Icons.check_box, size: 30),
+                            onPressed: () {
+                              controller.checkName = "";
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                      title: const Text("Choose a name to your check box"),
+                                      content: TextField(onChanged: (newValue) {
+                                        controller.checkName = newValue;
+                                      }),
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              if (controller.checkName.isNotEmpty) {
+                                                controller.newCheckAction();
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                            child: const Text("Add check"))
+                                      ]);
+                                },
+                              );
+                            }),
                       ),
                       Expanded(
                         child: IconButton(icon: const Icon(Icons.draw, size: 30), onPressed: () {}),
