@@ -36,6 +36,7 @@ class EditScreen extends StatelessWidget {
                         child: Container(
                           margin: EdgeInsets.only(left: screenWidth / 25),
                           child: TextFormField(
+                            controller: TextEditingController(text: value.noteName),
                             decoration: const InputDecoration(
                                 labelText: "Note Title",
                                 labelStyle: TextStyle(color: Colors.brown),
@@ -68,7 +69,7 @@ class EditScreen extends StatelessWidget {
                                 },
                               ),
                             ),
-                            if (value.noteBody.length > 1 && value.noteBody[i][0] is String)
+                            if (value.textNote > 1)
                               IconButton(
                                   icon: const Icon(Icons.delete),
                                   onPressed: () {
@@ -88,12 +89,13 @@ class EditScreen extends StatelessWidget {
                                   },
                                 )),
                             SizedBox(width: screenWidth / 25),
-                            IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeCheckAction(i);
-                                }),
+                            if (value.textNote > 1)
+                              IconButton(
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    value.removeCheckAction(i);
+                                  }),
                           ])
                         else if (value.noteBody[i] is ByteData)
                           InkWell(
@@ -105,7 +107,8 @@ class EditScreen extends StatelessWidget {
                               },
                               child: Row(children: [
                                 Container(
-                                    margin: EdgeInsets.only(left: screenWidth / 25),
+                                    margin:
+                                        EdgeInsets.only(left: screenWidth / 25, top: screenHeight / 50),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         border: Border.all(width: 3, color: Colors.black)),

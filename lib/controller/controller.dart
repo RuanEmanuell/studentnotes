@@ -19,6 +19,7 @@ class Controller extends ChangeNotifier {
 
   void createAction() {
     notes.add([noteName, noteBody, noteDate]);
+    print(notes);
     notifyListeners();
   }
 
@@ -42,12 +43,14 @@ class Controller extends ChangeNotifier {
   }
 
   void removeCheckAction(index) {
+    textNote++;
     noteBody.remove(noteBody[index]);
     notifyListeners();
   }
 
   void removeDrawAction(index) {
     noteBody.remove(noteBody[index]);
+    textNote--;
     notifyListeners();
   }
 
@@ -68,8 +71,8 @@ class Controller extends ChangeNotifier {
   }
 
   void newCheckAction() {
+    textNote++;
     noteBody.add([checkName, false]);
-    print(noteBody);
     notifyListeners();
   }
 
