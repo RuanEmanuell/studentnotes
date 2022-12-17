@@ -56,10 +56,11 @@ class HomeScreen extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               style: const TextStyle(fontSize: 25)),
                                           const SizedBox(height: 10),
-                                          Text(
-                                            value.notes[index][1][0][0],
-                                            overflow: TextOverflow.ellipsis,
-                                          )
+                                          if (value.notes[index][1][0].isNotEmpty)
+                                            Text(
+                                              value.notes[index][1][0][0],
+                                              overflow: TextOverflow.ellipsis,
+                                            )
                                         ]),
                                       )),
                                 ),

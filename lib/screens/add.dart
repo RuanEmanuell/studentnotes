@@ -85,13 +85,12 @@ class AddScreen extends StatelessWidget {
                                   },
                                 )),
                             SizedBox(width: screenWidth / 25),
-                            if (value.textNote > 1)
-                              IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    value.removeCheckAction(i);
-                                  }),
+                            IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  value.removeCheckAction(i);
+                                }),
                           ])
                         else if (value.noteBody[i] is ByteData)
                           InkWell(

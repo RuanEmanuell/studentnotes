@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -81,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ),
         body: Container(
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 7),
             color: Colors.white,
@@ -116,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               showModalBottomSheet(
                                 context: context,
-                                builder: (context) => Container(
+                                builder: (context) => SizedBox(
                                     height: screenHeight / 5,
                                     child: Wrap(alignment: WrapAlignment.center, children: [
                                       for (var i = 0; i < colors.length; i++)
@@ -145,15 +144,15 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: () {
                               showModalBottomSheet(
                                 context: context,
-                                builder: (context) => Container(
+                                builder: (context) => SizedBox(
                                     height: screenHeight / 5,
                                     child: Wrap(alignment: WrapAlignment.center, children: [
-                                      for (var i = 1; i <= 10; i++)
+                                      for (var i = 10; i > 0; i--)
                                         InkWell(
                                             onTap: () {
                                               Navigator.pop(context);
                                               setState(() {
-                                                strokeWidth = i.toDouble();
+                                                strokeWidth = (i - 10).abs().toDouble();
                                               });
                                             },
                                             child: Container(
@@ -162,15 +161,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 width: screenWidth / 10,
                                                 decoration: BoxDecoration(
                                                   color: Colors.black,
+                                                  border:
+                                                      Border.all(color: Colors.white, width: i * 1.75),
                                                   borderRadius: BorderRadius.circular(100),
-                                                ),
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  child: Text(i.toString(),
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontWeight: FontWeight.bold)),
                                                 )))
                                     ])),
                               );
