@@ -46,15 +46,31 @@ class _WatermarkPaint extends CustomPainter {
 class _MyHomePageState extends State<MyHomePage> {
   ByteData _img = ByteData(0);
   var color = 0;
-  var colorChanger = Colors.red;
+  var colorChanger = Colors.black;
   var strokeWidth = 5.0;
   final _sign = GlobalKey<SignatureState>();
+
+  List colors = [
+    Colors.black,
+    Colors.yellow,
+    Colors.amber,
+    Colors.orange,
+    Colors.red,
+    Colors.pink,
+    Colors.purple,
+    Colors.blue,
+    Colors.lightBlue,
+    Colors.lightGreen,
+    Colors.lime,
+    Colors.green
+  ];
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         appBar: AppBar(
           backgroundColor: Colors.yellow[200],
           elevation: 0,
@@ -65,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ),
         body: Container(
+          margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 7),
             color: Colors.white,
@@ -95,43 +112,73 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Expanded(
                         child: IconButton(
-                            icon: const Icon(Icons.palette, size: 30),
+                            icon: Icon(Icons.palette, size: 30, color: colorChanger),
                             onPressed: () {
-                              setState(() {
-                                color < 3 ? color++ : color = 0;
-                                switch (color) {
-                                  case 0:
-                                    colorChanger = Colors.red;
-                                    break;
-                                  case 1:
-                                    colorChanger = Colors.blue;
-                                    break;
-                                  case 2:
-                                    colorChanger = Colors.green;
-                                    break;
-                                  case 3:
-                                    colorChanger = Colors.yellow;
-                                    break;
-                                }
-                              });
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                    height: screenHeight / 5,
+                                    child: Wrap(alignment: WrapAlignment.center, children: [
+                                      for (var i = 0; i < colors.length; i++)
+                                        InkWell(
+                                            onTap: () {
+                                              print(colors[i]);
+                                              Navigator.pop(context);
+                                              setState(() {
+                                                colorChanger = colors[i];
+                                              });
+                                            },
+                                            child: Container(
+                                                margin: EdgeInsets.all(screenWidth / 30),
+                                                height: screenHeight / 17,
+                                                width: screenWidth / 10,
+                                                decoration: BoxDecoration(
+                                                    color: colors[i],
+                                                    borderRadius: BorderRadius.circular(100))))
+                                    ])),
+                              );
                             }),
                       ),
                       Expanded(
                         child: IconButton(
                             icon: const Icon(Icons.draw_outlined, size: 30),
                             onPressed: () {
-                              setState(() {
-                                int min = 1;
-                                int max = 10;
-                                int selection = min + (Random().nextInt(max - min));
-                                strokeWidth = selection.roundToDouble();
-                                debugPrint("change stroke width to $selection");
-                              });
+                              showModalBottomSheet(
+                                context: context,
+                                builder: (context) => Container(
+                                    height: screenHeight / 5,
+                                    child: Wrap(alignment: WrapAlignment.center, children: [
+                                      for (var i = 1; i <= 10; i++)
+                                        InkWell(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              setState(() {
+                                                strokeWidth = i.toDouble();
+                                              });
+                                            },
+                                            child: Container(
+                                                margin: EdgeInsets.all(screenWidth / 30),
+                                                height: screenHeight / 17,
+                                                width: screenWidth / 10,
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black,
+                                                  borderRadius: BorderRadius.circular(100),
+                                                ),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text(i.toString(),
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.bold)),
+                                                )))
+                                    ])),
+                              );
                             }),
                       ),
                       Expanded(
                         child: IconButton(
-                            icon: const Icon(Icons.replay, size: 30),
+                            icon: const Icon(Icons.delete, size: 30),
                             onPressed: () {
                               final sign = _sign.currentState;
                               sign!.clear();

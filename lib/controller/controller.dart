@@ -3,9 +3,7 @@ import "package:flutter/material.dart";
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  List noteBody = [
-    [""]
-  ];
+  List noteBody = [""];
 
   String noteDate = "";
 
@@ -61,7 +59,7 @@ class Controller extends ChangeNotifier {
 
   void newTextAction() {
     textNote++;
-    noteBody.add([""]);
+    noteBody.add("");
     notifyListeners();
   }
 
@@ -83,9 +81,7 @@ class Controller extends ChangeNotifier {
 
   void resetAction() {
     noteName = "";
-    noteBody = [
-      [""]
-    ];
+    noteBody = [""];
     noteDate = "";
     notifyListeners();
   }

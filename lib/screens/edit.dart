@@ -50,7 +50,7 @@ class EditScreen extends StatelessWidget {
                         ),
                       ),
                       for (var i = 0; i < value.noteBody.length; i++)
-                        if (value.noteBody[i].length == 1)
+                        if (value.noteBody[i] is String)
                           Row(children: [
                             Container(
                               margin: EdgeInsets.only(left: screenWidth / 25),
@@ -58,14 +58,14 @@ class EditScreen extends StatelessWidget {
                               child: TextFormField(
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
-                                controller: TextEditingController(text: value.noteBody[i][0]),
+                                controller: TextEditingController(text: value.noteBody[i]),
                                 decoration: const InputDecoration(
                                     labelText: "Your note here...",
                                     labelStyle: TextStyle(color: Colors.brown),
                                     floatingLabelBehavior: FloatingLabelBehavior.never,
                                     border: InputBorder.none),
                                 onChanged: (newValue) {
-                                  value.noteBody[i][0] = newValue;
+                                  value.noteBody[i] = newValue;
                                 },
                               ),
                             ),
