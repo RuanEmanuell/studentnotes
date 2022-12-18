@@ -12,11 +12,11 @@ class HomeScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-      body: SingleChildScrollView(
-        child: Consumer<Controller>(
-          builder: (context, value, child) => value.notes.isEmpty
-              ? const Center(child: Text("Your notes will be displayed here..."))
-              : Column(
+      body: Consumer<Controller>(
+        builder: (context, value, child) => value.notes.isEmpty
+            ? const Center(child: Text("Your notes will be here..."))
+            : SingleChildScrollView(
+                child: Column(
                   children: [
                     SizedBox(
                       height: screenHeight,
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-        ),
+              ),
       ),
       floatingActionButton: Container(
           decoration: BoxDecoration(
