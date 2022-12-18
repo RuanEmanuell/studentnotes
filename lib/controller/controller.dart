@@ -7,17 +7,16 @@ class Controller extends ChangeNotifier {
 
   String noteDate = "";
 
-  List<dynamic> notes = [];
+  List notes = [];
 
   String checkName = "";
 
   int textNote = 1;
 
-  var index;
+  late int index;
 
   void createAction() {
     notes.add([noteName, noteBody, noteDate]);
-    print(notes);
     notifyListeners();
   }
 
@@ -41,7 +40,7 @@ class Controller extends ChangeNotifier {
   }
 
   void removeCheckAction(index) {
-    textNote++;
+    textNote--;
     noteBody.remove(noteBody[index]);
     notifyListeners();
   }

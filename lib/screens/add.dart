@@ -1,9 +1,14 @@
 import 'dart:typed_data';
 
 import 'package:alarme/screens/paint.dart';
+import '../widgets.dart/general/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import "../controller/controller.dart";
+import '../widgets.dart/general/delete.dart';
+import '../widgets.dart/notescreen/checknote.dart';
+import '../widgets.dart/notescreen/notetitle.dart';
+import '../widgets.dart/notescreen/textnote.dart';
 import "home.dart";
 import 'image.dart';
 
@@ -15,82 +20,31 @@ class AddScreen extends StatelessWidget {
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-        appBar: AppBar(
-          backgroundColor: Colors.yellow[200],
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(Icons.close, size: 30, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: SingleChildScrollView(
           child: Consumer<Controller>(
               builder: ((context, value, child) => Column(
                     children: [
-                      SafeArea(
-                        child: Container(
-                          margin: EdgeInsets.only(left: screenWidth / 25),
-                          child: TextFormField(
-                            controller: TextEditingController(text: value.noteName),
-                            decoration: const InputDecoration(
-                                labelText: "Note Title",
-                                labelStyle: TextStyle(color: Colors.brown),
-                                floatingLabelBehavior: FloatingLabelBehavior.never,
-                                border: InputBorder.none),
-                            style: const TextStyle(fontSize: 25),
-                            onChanged: (newValue) {
-                              value.noteName = newValue;
-                            },
-                          ),
-                        ),
-                      ),
+                      NoteTitle(value: value),
                       for (var i = 0; i < value.noteBody.length; i++)
                         if (value.noteBody[i] is String)
                           Row(children: [
-                            Container(
-                              margin: EdgeInsets.only(left: screenWidth / 25),
-                              width: screenWidth / 1.2,
-                              child: TextFormField(
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                controller: TextEditingController(text: value.noteBody[i]),
-                                decoration: const InputDecoration(
-                                    labelText: "Your note here...",
-                                    labelStyle: TextStyle(color: Colors.brown),
-                                    floatingLabelBehavior: FloatingLabelBehavior.never,
-                                    border: InputBorder.none),
-                                onChanged: (newValue) {
-                                  value.noteBody[i] = newValue;
-                                },
-                              ),
-                            ),
+                            TextNote(value: value, i: i),
                             if (value.textNote > 1)
-                              IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    FocusManager.instance.primaryFocus?.unfocus();
-                                    value.removeTextAction(i);
-                                  }),
+                              DeleteButton(onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                value.removeTextAction(i);
+                              })
                           ])
                         else if (value.noteBody[i].length == 2)
                           Row(children: [
-                            SizedBox(
-                                width: screenWidth / 1.2,
-                                child: CheckboxListTile(
-                                  title: Text(value.noteBody[i][0]),
-                                  value: value.noteBody[i][1],
-                                  onChanged: (newValue) {
-                                    value.changeCheckAction(i);
-                                  },
-                                )),
+                            CheckNote(value: value, i: i),
                             SizedBox(width: screenWidth / 25),
-                            IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeCheckAction(i);
-                                }),
+                            if (value.textNote > 1)
+                              DeleteButton(onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                value.removeCheckAction(i);
+                              }),
                           ])
                         else if (value.noteBody[i] is ByteData)
                           InkWell(
