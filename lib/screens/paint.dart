@@ -8,6 +8,10 @@ import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/controller.dart';
+import '../widgets/general/appbar.dart';
+import '../widgets/general/bigbutton.dart';
+import '../widgets/notescreen/bottombar.dart';
+import '../widgets/notescreen/bottomitem.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -70,15 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-        appBar: AppBar(
-          backgroundColor: Colors.yellow[200],
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(Icons.close, size: 30, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Container(
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -99,114 +95,91 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: MediaQuery.of(context).viewInsets,
           child: Row(
             children: [
-              Container(
-                  height: screenHeight / 12,
-                  width: screenWidth / 1.4,
-                  margin: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black, width: 2.5),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: IconButton(
-                            icon: Icon(Icons.palette, size: 30, color: colorChanger),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (context) => SizedBox(
-                                    height: screenHeight / 5,
-                                    child: Wrap(alignment: WrapAlignment.center, children: [
-                                      for (var i = 0; i < colors.length; i++)
-                                        InkWell(
-                                            onTap: () {
-                                              print(colors[i]);
-                                              Navigator.pop(context);
-                                              setState(() {
-                                                colorChanger = colors[i];
-                                              });
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.all(screenWidth / 30),
-                                                height: screenHeight / 17,
-                                                width: screenWidth / 10,
-                                                decoration: BoxDecoration(
-                                                    color: colors[i],
-                                                    borderRadius: BorderRadius.circular(100))))
-                                    ])),
-                              );
-                            }),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.draw_outlined, size: 30),
-                            onPressed: () {
-                              showModalBottomSheet(
-                                context: context,
-                                builder: (context) => SizedBox(
-                                    height: screenHeight / 5,
-                                    child: Wrap(alignment: WrapAlignment.center, children: [
-                                      for (var i = 10; i > 0; i--)
-                                        InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                              setState(() {
-                                                strokeWidth = (i - 10).abs().toDouble();
-                                              });
-                                            },
-                                            child: Container(
-                                                margin: EdgeInsets.all(screenWidth / 30),
-                                                height: screenHeight / 17,
-                                                width: screenWidth / 10,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.black,
-                                                  border:
-                                                      Border.all(color: Colors.white, width: i * 1.75),
-                                                  borderRadius: BorderRadius.circular(100),
-                                                )))
-                                    ])),
-                              );
-                            }),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.delete, size: 30),
-                            onPressed: () {
-                              final sign = _sign.currentState;
-                              sign!.clear();
-                              setState(() {
-                                _img = ByteData(0);
-                              });
-                            }),
-                      ),
-                    ],
-                  )),
-              Container(
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 238, 88),
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 2.5,
-                      ),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: IconButton(
-                    icon: const Icon(Icons.save, size: 30),
-                    onPressed: () async {
+              BottomBar(
+                  child: Row(children: [
+                BottomBarItem(
+                    icon: Icons.palette,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) => SizedBox(
+                            height: screenHeight / 5,
+                            child: Wrap(alignment: WrapAlignment.center, children: [
+                              for (var i = 0; i < colors.length; i++)
+                                InkWell(
+                                    onTap: () {
+                                      print(colors[i]);
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        colorChanger = colors[i];
+                                      });
+                                    },
+                                    child: Container(
+                                        margin: EdgeInsets.all(screenWidth / 30),
+                                        height: screenHeight / 17,
+                                        width: screenWidth / 10,
+                                        decoration: BoxDecoration(
+                                            color: colors[i], borderRadius: BorderRadius.circular(100))))
+                            ])),
+                      );
+                    }),
+                BottomBarItem(
+                  icon: Icons.draw_outlined,
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => SizedBox(
+                          height: screenHeight / 5,
+                          child: Wrap(alignment: WrapAlignment.center, children: [
+                            for (var i = 10; i > 0; i--)
+                              InkWell(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      strokeWidth = (i - 10).abs().toDouble();
+                                    });
+                                  },
+                                  child: Container(
+                                      margin: EdgeInsets.all(screenWidth / 30),
+                                      height: screenHeight / 17,
+                                      width: screenWidth / 10,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black,
+                                        border: Border.all(color: Colors.white, width: i * 1.75),
+                                        borderRadius: BorderRadius.circular(100),
+                                      )))
+                          ])),
+                    );
+                  },
+                ),
+                BottomBarItem(
+                    icon: Icons.delete,
+                    onPressed: () {
                       final sign = _sign.currentState;
-                      //retrieve image data, do whatever you want with it (send to server, save locally...)
-                      final image = await sign!.getData();
-                      var data = await image.toByteData(format: ui.ImageByteFormat.png);
-                      sign.clear();
-                      final encoded = base64.encode(data!.buffer.asUint8List());
+                      sign!.clear();
                       setState(() {
-                        _img = data;
+                        _img = ByteData(0);
                       });
-                      Provider.of<Controller>(context, listen: false).newDrawn(_img);
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      Navigator.pop(context);
-                    },
-                  )),
+                    })
+              ])),
+              BigIconButton(
+                color: const Color.fromARGB(255, 255, 238, 88),
+                icon: Icons.save,
+                onPressed: () async {
+                  final sign = _sign.currentState;
+                  //retrieve image data, do whatever you want with it (send to server, save locally...)
+                  final image = await sign!.getData();
+                  var data = await image.toByteData(format: ui.ImageByteFormat.png);
+                  sign.clear();
+                  final encoded = base64.encode(data!.buffer.asUint8List());
+                  setState(() {
+                    _img = data;
+                  });
+                  Provider.of<Controller>(context, listen: false).newDrawn(_img);
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  Navigator.pop(context);
+                },
+              )
             ],
           ),
         ));
