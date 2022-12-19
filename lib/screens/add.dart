@@ -81,12 +81,14 @@ class AddScreen extends StatelessWidget {
                 children: [
                   BottomBarItem(
                       icon: Icons.abc,
+                      color: Colors.black,
                       onPressed: () {
                         FocusManager.instance.primaryFocus?.unfocus();
                         controller.newTextAction();
                       }),
                   BottomBarItem(
                       icon: Icons.check_box,
+                      color: Colors.black,
                       onPressed: () {
                         controller.checkName = "";
                         FocusManager.instance.primaryFocus?.unfocus();
@@ -99,15 +101,16 @@ class AddScreen extends StatelessWidget {
                       }),
                   BottomBarItem(
                       icon: Icons.draw,
+                      color: Colors.black,
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return MyHomePage();
+                            return PaintScreen();
                           },
                         ));
                       }),
-                  BottomBarItem(icon: Icons.add_a_photo, onPressed: () {}),
-                  BottomBarItem(icon: Icons.mic, onPressed: () {})
+                  BottomBarItem(icon: Icons.add_a_photo, color: Colors.grey, onPressed: () {}),
+                  BottomBarItem(icon: Icons.mic, color: Colors.grey, onPressed: () {})
                 ],
               )),
               BigIconButton(

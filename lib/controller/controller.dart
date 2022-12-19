@@ -60,8 +60,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void newDrawn(image) {
-    noteBody.add(image);
+  void newDrawn(drawn) {
+    noteBody.add(drawn);
     notifyListeners();
   }
 
