@@ -40,14 +40,12 @@ class Controller extends ChangeNotifier {
   }
 
   void removeCheckAction(index) {
-    textNote--;
     noteBody.remove(noteBody[index]);
     notifyListeners();
   }
 
   void removeDrawAction(index) {
     noteBody.remove(noteBody[index]);
-    textNote--;
     notifyListeners();
   }
 
@@ -62,13 +60,12 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void newImage(image) {
+  void newDrawn(image) {
     noteBody.add(image);
     notifyListeners();
   }
 
   void newCheckAction() {
-    textNote++;
     noteBody.add([checkName, false]);
     notifyListeners();
   }

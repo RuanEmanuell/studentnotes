@@ -1,14 +1,22 @@
-import 'dart:typed_data';
-
-import 'package:alarme/screens/paint.dart';
-import '../widgets.dart/general/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'dart:typed_data';
+
 import "../controller/controller.dart";
-import '../widgets.dart/general/delete.dart';
-import '../widgets.dart/notescreen/checknote.dart';
-import '../widgets.dart/notescreen/notetitle.dart';
-import '../widgets.dart/notescreen/textnote.dart';
+
+import '../widgets/general/appbar.dart';
+import '../widgets/general/delete.dart';
+import '../widgets/general/yellowbutton.dart';
+import '../widgets/notescreen/bottombar.dart';
+import '../widgets/notescreen/bottomitem.dart';
+import '../widgets/notescreen/checkdialog.dart';
+import '../widgets/notescreen/checknote.dart';
+import '../widgets/notescreen/imagebox.dart';
+import '../widgets/notescreen/notetitle.dart';
+import '../widgets/notescreen/textnote.dart';
+
+import 'paint.dart';
 import "home.dart";
 import 'image.dart';
 
@@ -40,11 +48,10 @@ class AddScreen extends StatelessWidget {
                           Row(children: [
                             CheckNote(value: value, i: i),
                             SizedBox(width: screenWidth / 25),
-                            if (value.textNote > 1)
-                              DeleteButton(onPressed: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                value.removeCheckAction(i);
-                              }),
+                            DeleteButton(onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              value.removeCheckAction(i);
+                            }),
                           ])
                         else if (value.noteBody[i] is ByteData)
                           InkWell(
@@ -55,21 +62,11 @@ class AddScreen extends StatelessWidget {
                                         builder: (context) => ImageScreen(image: value.noteBody[i])));
                               },
                               child: Row(children: [
-                                Container(
-                                    margin:
-                                        EdgeInsets.only(left: screenWidth / 25, top: screenHeight / 50),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(width: 3, color: Colors.black)),
-                                    height: screenHeight / 2.5,
-                                    width: screenWidth / 1.2,
-                                    child: Image.memory(value.noteBody[i].buffer.asUint8List())),
-                                IconButton(
-                                    icon: const Icon(Icons.delete),
-                                    onPressed: () {
-                                      FocusManager.instance.primaryFocus?.unfocus();
-                                      value.removeDrawAction(i);
-                                    }),
+                                DrawnBox(value: value, i: i),
+                                DeleteButton(onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  value.removeDrawAction(i);
+                                })
                               ])),
                     ],
                   ))),
@@ -79,102 +76,53 @@ class AddScreen extends StatelessWidget {
           padding: MediaQuery.of(context).viewInsets,
           child: Row(
             children: [
-              Container(
-                  height: screenHeight / 12,
-                  width: screenWidth / 1.4,
-                  margin: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black, width: 2.5),
-                      borderRadius: BorderRadius.circular(20)),
+              BottomBar(
                   child: Row(
-                    children: [
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.abc, size: 30),
-                            onPressed: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              controller.newTextAction();
-                            }),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.check_box, size: 30),
-                            onPressed: () {
-                              controller.checkName = "";
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                      title: const Text("Choose a name to your check box",
-                                          style: TextStyle(color: Colors.brown)),
-                                      backgroundColor: Colors.yellow[200],
-                                      content: TextField(onChanged: (newValue) {
-                                        controller.checkName = newValue;
-                                      }),
-                                      actions: [
-                                        ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-                                                shape: const RoundedRectangleBorder(
-                                                    side: BorderSide(color: Colors.black, width: 2.5))),
-                                            onPressed: () {
-                                              if (controller.checkName.isNotEmpty) {
-                                                controller.newCheckAction();
-                                                Navigator.pop(context);
-                                              }
-                                            },
-                                            child: const Text("Add check",
-                                                style: TextStyle(color: Colors.black)))
-                                      ]);
-                                },
-                              );
-                            }),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.draw, size: 30),
-                            onPressed: () {
-                              Navigator.push(context, MaterialPageRoute(
-                                builder: (context) {
-                                  return MyHomePage();
-                                },
-                              ));
-                            }),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.add_a_photo, size: 30, color: Colors.grey),
-                            onPressed: () {}),
-                      ),
-                      Expanded(
-                        child: IconButton(
-                            icon: const Icon(Icons.mic, size: 30, color: Colors.grey), onPressed: () {}),
-                      ),
-                    ],
-                  )),
-              Container(
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 238, 88),
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2.5,
-                    ),
-                    borderRadius: BorderRadius.circular(30)),
-                child: IconButton(
-                    icon: const Icon(Icons.check, size: 30),
-                    onPressed: () {
-                      controller.noteDate =
-                          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
-                      controller.createAction();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomeScreen(),
-                          ));
-                    }),
-              ),
+                children: [
+                  BottomBarItem(
+                      icon: Icons.abc,
+                      onPressed: () {
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        controller.newTextAction();
+                      }),
+                  BottomBarItem(
+                      icon: Icons.check_box,
+                      onPressed: () {
+                        controller.checkName = "";
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return CheckDialog(controller: controller);
+                          },
+                        );
+                      }),
+                  BottomBarItem(
+                      icon: Icons.draw,
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return MyHomePage();
+                          },
+                        ));
+                      }),
+                  BottomBarItem(icon: Icons.add_a_photo, onPressed: () {}),
+                  BottomBarItem(icon: Icons.mic, onPressed: () {})
+                ],
+              )),
+              BigIconButton(
+                  color: const Color.fromARGB(255, 255, 238, 88),
+                  icon: Icons.check,
+                  onPressed: () {
+                    controller.noteDate =
+                        "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
+                    controller.createAction();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ));
+                  })
             ],
           ),
         ));

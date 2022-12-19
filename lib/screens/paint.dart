@@ -202,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         _img = data;
                       });
-                      Provider.of<Controller>(context, listen: false).newImage(_img);
+                      Provider.of<Controller>(context, listen: false).newDrawn(_img);
                       FocusManager.instance.primaryFocus?.unfocus();
                       Navigator.pop(context);
                     },
