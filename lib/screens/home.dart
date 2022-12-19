@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import "../controller/controller.dart";
 import '../widgets/general/delete.dart';
-import '../widgets/general/yellowbutton.dart';
+import '../widgets/general/bigbutton.dart';
 import '../widgets/homescreen/ballontext.dart';
 import 'add.dart';
 import 'edit.dart';

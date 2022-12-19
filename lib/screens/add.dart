@@ -7,18 +7,18 @@ import "../controller/controller.dart";
 
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
-import '../widgets/general/yellowbutton.dart';
+import '../widgets/general/bigbutton.dart';
 import '../widgets/notescreen/bottombar.dart';
 import '../widgets/notescreen/bottomitem.dart';
 import '../widgets/notescreen/checkdialog.dart';
 import '../widgets/notescreen/checknote.dart';
-import '../widgets/notescreen/imagebox.dart';
+import '../widgets/notescreen/drawnbox.dart';
 import '../widgets/notescreen/notetitle.dart';
 import '../widgets/notescreen/textnote.dart';
 
 import 'paint.dart';
 import "home.dart";
-import 'image.dart';
+import 'drawn.dart';
 
 class AddScreen extends StatelessWidget {
   @override
@@ -59,7 +59,7 @@ class AddScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => ImageScreen(image: value.noteBody[i])));
+                                        builder: (context) => DrawnScreen(image: value.noteBody[i])));
                               },
                               child: Row(children: [
                                 DrawnBox(value: value, i: i),
