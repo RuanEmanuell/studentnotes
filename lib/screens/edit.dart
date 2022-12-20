@@ -11,7 +11,7 @@ import "../controller/controller.dart";
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
-import '../widgets/notescreen/addimage.dart';
+import '../widgets/notescreen/imagetype.dart';
 import '../widgets/notescreen/bottombar.dart';
 import '../widgets/notescreen/bottomitem.dart';
 import '../widgets/notescreen/checkdialog.dart';
