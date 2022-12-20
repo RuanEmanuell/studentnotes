@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
@@ -10,6 +11,7 @@ import "../controller/controller.dart";
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
+import '../widgets/notescreen/addimage.dart';
 import '../widgets/notescreen/bottombar.dart';
 import '../widgets/notescreen/bottomitem.dart';
 import '../widgets/notescreen/checkdialog.dart';
@@ -136,7 +138,35 @@ class EditScreen extends StatelessWidget {
                       icon: Icons.add_a_photo,
                       color: Colors.black,
                       onPressed: () {
-                        controller.getImage();
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return SizedBox(
+                                  height: screenHeight / 3,
+                                  width: screenWidth,
+                                  child: Row(children: [
+                                    ImageTypeBox(
+                                      icon: Icons.camera_alt,
+                                      text: "Camera",
+                                      color: Colors.yellow[200],
+                                      onTap: () {
+                                        controller.imageOption = ImageSource.camera;
+                                        controller.getImage();
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    ImageTypeBox(
+                                      icon: Icons.photo,
+                                      text: "Gallery",
+                                      color: const Color.fromARGB(255, 255, 238, 88),
+                                      onTap: () {
+                                        controller.imageOption = ImageSource.gallery;
+                                        controller.getImage();
+                                        Navigator.pop(context);
+                                      },
+                                    )
+                                  ]));
+                            });
                       }),
                   BottomBarItem(icon: Icons.mic, color: Colors.grey, onPressed: () {})
                 ],

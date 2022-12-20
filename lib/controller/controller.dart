@@ -18,6 +18,8 @@ class Controller extends ChangeNotifier {
 
   late int index;
 
+  var imageOption = ImageSource.gallery;
+
   void createAction() {
     notes.add([noteName, noteBody, noteDate]);
     notifyListeners();
@@ -85,7 +87,7 @@ class Controller extends ChangeNotifier {
 
   void getImage() async {
     var pickedFile = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: imageOption,
       maxWidth: 1800,
       maxHeight: 1800,
     );
