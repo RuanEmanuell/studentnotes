@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 
 class PaintController extends ChangeNotifier {
-  ByteData img = ByteData(0);
+  ByteData drawn = ByteData(0);
   var color = 0;
   var colorChanger = Colors.black;
   var strokeWidth = 5.0;

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
+import 'package:image_picker/image_picker.dart';
 
 class Controller extends ChangeNotifier {
   String noteName = "";
@@ -33,18 +36,10 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeTextAction(index) {
-    noteBody.remove(noteBody[index]);
-    textNote--;
-    notifyListeners();
-  }
-
-  void removeCheckAction(index) {
-    noteBody.remove(noteBody[index]);
-    notifyListeners();
-  }
-
-  void removeDrawAction(index) {
+  void removeAction(index) {
+    if (noteBody[index] is String) {
+      textNote--;
+    }
     noteBody.remove(noteBody[index]);
     notifyListeners();
   }
@@ -60,11 +55,6 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void newDrawn(drawn) {
-    noteBody.add(drawn);
-    notifyListeners();
-  }
-
   void newCheckAction() {
     noteBody.add([checkName, false]);
     notifyListeners();
@@ -75,10 +65,33 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  void newDrawnAction(drawn) {
+    noteBody.add(drawn);
+    notifyListeners();
+  }
+
+  void newImageAction(image) {
+    noteBody.add(image);
+    print(noteBody);
+    notifyListeners();
+  }
+
   void resetAction() {
     noteName = "";
     noteBody = [""];
     noteDate = "";
     notifyListeners();
+  }
+
+  void getImage() async {
+    var pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+    if (pickedFile != null) {
+      var imageFile = File(pickedFile.path);
+      newImageAction(imageFile);
+    }
   }
 }

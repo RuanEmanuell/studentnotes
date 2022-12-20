@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../widgets/general/bigbutton.dart';
 
-class DrawnScreen extends StatelessWidget {
-  var drawn;
+class ImageScreen extends StatelessWidget {
+  var image;
 
-  DrawnScreen({required this.drawn});
+  ImageScreen({required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class DrawnScreen extends StatelessWidget {
         child: Container(
             height: screenHeight,
             decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
-            child: Image.memory(drawn.buffer.asUint8List())),
+            child: Image.file(image)),
       ),
       SafeArea(
           child: Container(

@@ -20,7 +20,7 @@ class PaintScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
-        backgroundColor: const ui.Color.fromARGB(255, 68, 62, 4),
+        backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
@@ -91,7 +91,7 @@ class PaintScreen extends StatelessWidget {
                             onPressed: () {
                               final sign = value.sign.currentState;
                               sign!.clear();
-                              value.img = ByteData(0);
+                              value.drawn = ByteData(0);
                             })
                       ])),
                       BigIconButton(
@@ -102,8 +102,8 @@ class PaintScreen extends StatelessWidget {
                           final image = await sign!.getData();
                           sign.clear();
                           var data = await image.toByteData(format: ui.ImageByteFormat.png);
-                          value.img = data!;
-                          controller.newDrawn(value.img);
+                          value.drawn = data!;
+                          controller.newDrawnAction(value.drawn);
                           FocusManager.instance.primaryFocus?.unfocus();
 
                           Navigator.pop(context);

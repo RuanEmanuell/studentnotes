@@ -58,7 +58,8 @@ class HomeScreen extends StatelessWidget {
                                           child: Column(children: [
                                             BallonText(text: value.notes[index][0], fontSize: 25.0),
                                             const SizedBox(height: 10),
-                                            if (value.notes[index][1][0].isNotEmpty)
+                                            if (value.notes[index][1][0] is String &&
+                                                value.notes[index][1][0].isNotEmpty)
                                               BallonText(fontSize: 15.0, text: value.notes[index][1][0])
                                           ]),
                                         )),

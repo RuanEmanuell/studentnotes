@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:alarme/screens/image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +16,7 @@ import '../widgets/notescreen/bottomitem.dart';
 import '../widgets/notescreen/checkdialog.dart';
 import '../widgets/notescreen/checknote.dart';
 import '../widgets/notescreen/drawnbox.dart';
+import '../widgets/notescreen/imagebox.dart';
 import '../widgets/notescreen/notetitle.dart';
 import '../widgets/notescreen/textnote.dart';
 
@@ -26,6 +30,7 @@ class AddScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
+
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
@@ -41,7 +46,7 @@ class AddScreen extends StatelessWidget {
                             if (value.textNote > 1)
                               DeleteButton(onPressed: () {
                                 FocusManager.instance.primaryFocus?.unfocus();
-                                value.removeTextAction(i);
+                                value.removeAction(i);
                               })
                           ])
                         else if (value.noteBody[i].length == 2)
@@ -50,7 +55,7 @@ class AddScreen extends StatelessWidget {
                             SizedBox(width: screenWidth / 25),
                             DeleteButton(onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
-                              value.removeCheckAction(i);
+                              value.removeAction(i);
                             }),
                           ])
                         else if (value.noteBody[i] is ByteData)
@@ -59,15 +64,30 @@ class AddScreen extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => DrawnScreen(image: value.noteBody[i])));
+                                        builder: (context) => DrawnScreen(drawn: value.noteBody[i])));
                               },
                               child: Row(children: [
-                                DrawnBox(value: value, i: i),
+                                DrawnNote(value: value, i: i),
                                 DeleteButton(onPressed: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeDrawAction(i);
-                                })
-                              ])),
+                                  value.removeAction(i);
+                                }),
+                              ]))
+                        else if (value.noteBody[i] is File)
+                          InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ImageScreen(image: value.noteBody[i])));
+                              },
+                              child: Row(children: [
+                                ImageNote(value: value, i: i),
+                                DeleteButton(onPressed: () {
+                                  FocusManager.instance.primaryFocus?.unfocus();
+                                  value.removeAction(i);
+                                }),
+                              ]))
                     ],
                   ))),
         ),
@@ -109,7 +129,12 @@ class AddScreen extends StatelessWidget {
                           },
                         ));
                       }),
-                  BottomBarItem(icon: Icons.add_a_photo, color: Colors.grey, onPressed: () {}),
+                  BottomBarItem(
+                      icon: Icons.add_a_photo,
+                      color: Colors.black,
+                      onPressed: () {
+                        controller.getImage();
+                      }),
                   BottomBarItem(icon: Icons.mic, color: Colors.grey, onPressed: () {})
                 ],
               )),

@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 
-class DrawnNote extends StatelessWidget {
+class ImageNote extends StatelessWidget {
   var value;
   var i;
 
-  DrawnNote({required this.value, required this.i});
+  ImageNote({required this.value, required this.i});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +16,6 @@ class DrawnNote extends StatelessWidget {
             BoxDecoration(color: Colors.white, border: Border.all(width: 3, color: Colors.black)),
         height: screenHeight / 2.5,
         width: screenWidth / 1.2,
-        child: Image.memory(value.noteBody[i].buffer.asUint8List()));
+        child: Image.file(value.noteBody[i], fit: BoxFit.cover));
   }
 }
