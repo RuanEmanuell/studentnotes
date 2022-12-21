@@ -1,8 +1,12 @@
 import 'dart:io';
 
-
+import 'package:alarme/screens/record.dart';
+import 'package:audio_session/audio_session.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
@@ -27,7 +31,66 @@ import "home.dart";
 import 'drawn.dart';
 import "image.dart";
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends StatefulWidget {
+  @override
+  State<AddScreen> createState() => _AddScreenState();
+}
+
+class _AddScreenState extends State<AddScreen> {
+  Codec _codec = Codec.aacMP4;
+
+  String _mPath = 'tau_file.mp4';
+
+  FlutterSoundPlayer? _mPlayer = FlutterSoundPlayer();
+
+  FlutterSoundRecorder? _mRecorder = FlutterSoundRecorder();
+
+  bool _mPlayerIsInited = false;
+
+  bool _mRecorderIsStopped = true;
+
+  bool _mplaybackReady = true;
+
+  void play(audio) {
+    _mPlayer!
+        .startPlayer(
+            fromURI: audio,
+            //codec: kIsWeb ? Codec.opusWebM : Codec.aacADTS,
+            whenFinished: () {
+              setState(() {});
+            })
+        .then((value) {
+      setState(() {});
+    });
+  }
+
+  void stopPlayer() {
+    _mPlayer!.stopPlayer().then((value) {
+      setState(() {});
+    });
+  }
+
+
+  @override
+  void initState() {
+    _mPlayer!.openPlayer().then((value) {
+      setState(() {
+        _mPlayerIsInited = true;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mPlayer!.closePlayer();
+    _mPlayer = null;
+
+    _mRecorder!.closeRecorder();
+    _mRecorder = null;
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -99,7 +162,9 @@ class AddScreen extends StatelessWidget {
                                         builder: (context) => ImageScreen(image: value.noteBody[i])));
                               },
                               child: Row(children: [
-                                IconButton(icon: Icon(Icons.play_arrow), onPressed: () async {}),
+                                IconButton(icon: Icon(Icons.play_arrow), onPressed: () async {
+                                  play(value.noteBody[i][0]);
+                                }),
                                 DeleteButton(onPressed: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   value.removeAction(i);
@@ -191,7 +256,13 @@ class AddScreen extends StatelessWidget {
                                   height: screenHeight / 3,
                                   width: screenWidth,
                                   child: Row(children: [
-                                    IconButton(icon: Icon(Icons.mic), onPressed: () async {}),
+                                    IconButton(
+                                        icon: Icon(Icons.mic),
+                                        onPressed: () async {
+                                          Navigator.push(
+                                            context,MaterialPageRoute(builder: (context) => SimpleRecorder())
+                                          );
+                                        }),
                                     IconButton(icon: Icon(Icons.stop), onPressed: () {})
                                   ]));
                             });

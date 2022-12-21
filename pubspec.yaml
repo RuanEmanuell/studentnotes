@@ -41,9 +41,9 @@ dependencies:
   provider: ^6.0.4
   flutter_signature_pad: ^3.0.1
   image_picker: ^0.8.6
-  record_mp3: ^3.0.0
-  path_provider: ^2.0.11
-  audioplayers: ^1.1.1
+  audio_session: ^0.1.13
+  flutter_sound: ^9.2.13
+  flutter_sound_platform_interface: ^9.2.13
   permission_handler: ^10.2.0
 dev_dependencies:
 
