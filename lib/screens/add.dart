@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:alarme/screens/image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:record_mp3/record_mp3.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
@@ -28,21 +25,9 @@ import '../widgets/notescreen/textnote.dart';
 import 'paint.dart';
 import "home.dart";
 import 'drawn.dart';
+import "image.dart";
 
 class AddScreen extends StatelessWidget {
-  var i = 0;
-  var recordFilePath;
-  var audioPlayer = AudioPlayer();
-  Future<String> getFilePath() async {
-    Directory storageDirectory = await getApplicationDocumentsDirectory();
-    String sdPath = storageDirectory.path + "/record";
-    var d = Directory(sdPath);
-    if (!d.existsSync()) {
-      d.createSync(recursive: true);
-    }
-    return sdPath + "/test_${i++}.mp3";
-  }
-
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -114,11 +99,7 @@ class AddScreen extends StatelessWidget {
                                         builder: (context) => ImageScreen(image: value.noteBody[i])));
                               },
                               child: Row(children: [
-                                IconButton(
-                                    icon: Icon(Icons.play_arrow),
-                                    onPressed: () async {
-                                      await audioPlayer.play(UrlSource(value.noteBody[i][0]));
-                                    }),
+                                IconButton(icon: Icon(Icons.play_arrow), onPressed: () async {}),
                                 DeleteButton(onPressed: () {
                                   FocusManager.instance.primaryFocus?.unfocus();
                                   value.removeAction(i);
@@ -210,18 +191,8 @@ class AddScreen extends StatelessWidget {
                                   height: screenHeight / 3,
                                   width: screenWidth,
                                   child: Row(children: [
-                                    IconButton(
-                                        icon: Icon(Icons.mic),
-                                        onPressed: () async {
-                                          recordFilePath = await getFilePath();
-                                          RecordMp3.instance.start(recordFilePath, (type) {});
-                                        }),
-                                    IconButton(
-                                        icon: Icon(Icons.stop),
-                                        onPressed: () {
-                                          RecordMp3.instance.stop();
-                                          controller.newAudioAction(recordFilePath);
-                                        })
+                                    IconButton(icon: Icon(Icons.mic), onPressed: () async {}),
+                                    IconButton(icon: Icon(Icons.stop), onPressed: () {})
                                   ]));
                             });
                       })
