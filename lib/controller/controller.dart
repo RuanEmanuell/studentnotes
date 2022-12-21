@@ -78,6 +78,12 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
+  void newAudioAction(audio) {
+    noteBody.add([audio]);
+    print(noteBody);
+    notifyListeners();
+  }
+
   void resetAction() {
     noteName = "";
     noteBody = [""];
