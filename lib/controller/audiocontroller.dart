@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 
 class AudioController extends ChangeNotifier {
+  int audio = 0;
   Codec codec = Codec.aacMP4;
-  String mPath = 'tau_file.mp4';
+  String mPath = "audio0.mp4";
   FlutterSoundPlayer? mPlayer = FlutterSoundPlayer();
   FlutterSoundRecorder? mRecorder = FlutterSoundRecorder();
   bool mPlayerIsInited = false;
@@ -17,6 +17,14 @@ class AudioController extends ChangeNotifier {
 
   bool recording = false;
   bool paused = false;
+  bool isPlaying = false;
+
+  var durationSeconds = 0;
+  var durationMinutes = 0;
+  var audioDuration = "00:00";
+  var durationTimer;
+  var rawDuration = 0;
+  var setState;
 
   var theSource = AudioSource.microphone;
 
@@ -57,12 +65,15 @@ class AudioController extends ChangeNotifier {
   }
 
   void record() {
+    audio++;
+    mPath = "audio$audio.mp4";
     mRecorder!.startRecorder(
       toFile: mPath,
       codec: codec,
       audioSource: theSource,
     );
     recording = true;
+    durationCreator();
     notifyListeners();
   }
 
@@ -71,6 +82,7 @@ class AudioController extends ChangeNotifier {
       mplaybackReady = true;
       recording = false;
     });
+    durationTimer.cancel();
     notifyListeners();
   }
 
@@ -96,6 +108,14 @@ class AudioController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void restartDuration() {
+    durationSeconds = 0;
+    durationMinutes = 0;
+    audioDuration = "00:00";
+    rawDuration = 0;
+    notifyListeners();
+  }
+
   void initPlayerAndRecorder() {
     mPlayer!.openPlayer().then((thenValue) {
       mPlayerIsInited = true;
@@ -103,6 +123,33 @@ class AudioController extends ChangeNotifier {
 
     openTheRecorder().then((thenValue) {
       mRecorderIsInited = true;
+    });
+  }
+
+  void durationCreator() {
+    durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (!paused) {
+          rawDuration++;
+
+          if (durationSeconds > 59) {
+            durationSeconds = 0;
+            durationMinutes++;
+          } else {
+            durationSeconds++;
+          }
+
+          if (durationSeconds < 10 && durationMinutes < 10) {
+            audioDuration = "0$durationMinutes:0$durationSeconds";
+          } else if (durationSeconds < 10) {
+            audioDuration = "$durationMinutes:0$durationSeconds";
+          } else if (durationMinutes < 10) {
+            audioDuration = "0$durationMinutes:$durationSeconds";
+          } else {
+            audioDuration = "$durationMinutes:$durationSeconds";
+          }
+        }
+      });
     });
   }
 }

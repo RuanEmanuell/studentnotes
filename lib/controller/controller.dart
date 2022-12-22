@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:alarme/controller/paintcontroller.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 
@@ -79,9 +78,14 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void newAudioAction(audio) {
-    noteBody.add([audio]);
+  void newAudioAction(audio, duration, rawDuration, paused) {
+    noteBody.add([audio, duration, rawDuration, paused]);
     print(noteBody);
+    notifyListeners();
+  }
+
+  void pauseAudioIndicator(index) {
+    noteBody[index][3] = !noteBody[index][3];
     notifyListeners();
   }
 

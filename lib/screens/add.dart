@@ -1,11 +1,8 @@
 import 'dart:io';
 
-import 'package:audio_session/audio_session.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
@@ -94,27 +91,40 @@ class AddScreen extends StatelessWidget {
                                   value.removeAction(i);
                                 }),
                               ]))
-                        else if (value.noteBody[i].length == 1)
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ImageScreen(image: value.noteBody[i])));
-                              },
-                              child: Row(children: [
-                                IconButton(
-                                    icon: Icon(Icons.play_arrow),
-                                    onPressed: () async {
-                                      Provider.of<AudioController>(context, listen: false)
-                                          .play(value.noteBody[i][0]);
-                                      print(value.noteBody[i][0]);
-                                    }),
-                                DeleteButton(onPressed: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeAction(i);
+                        else if (value.noteBody[i].length == 4)
+                          Row(children: [
+                            IconButton(
+                                icon: Icon(
+                                    value.noteBody[i][3] == false ? Icons.play_arrow : Icons.pause,
+                                    color: value.noteBody[i][3] == false ? Colors.black : Colors.blue),
+                                onPressed: () async {
+                                  if (value.noteBody[i][3] == false) {
+                                    Provider.of<AudioController>(context, listen: false)
+                                        .play(value.noteBody[i][0]);
+                                  } else {
+                                    Provider.of<AudioController>(context, listen: false).stopPlayer();
+                                  }
+
+                                  value.pauseAudioIndicator(i);
+
+                                  Future.delayed(Duration(seconds: value.noteBody[i][2]), () {
+                                    if (value.noteBody[i][3] == true) {
+                                      value.pauseAudioIndicator(i);
+                                    }
+                                  });
                                 }),
-                              ]))
+                            Container(
+                                height: 5,
+                                width: screenWidth / 1.6,
+                                color: value.noteBody[i][3] == false ? Colors.black : Colors.blue),
+                            SizedBox(width: screenWidth / 50),
+                            Text(value.noteBody[i][1].toString()),
+                            SizedBox(width: screenWidth / 40),
+                            DeleteButton(onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              value.removeAction(i);
+                            }),
+                          ])
                     ],
                   ))),
         ),
@@ -205,53 +215,94 @@ class AddScreen extends StatelessWidget {
                                       height: screenHeight / 3,
                                       width: screenWidth,
                                       color: Colors.yellow[200],
-                                      child: Row(children: [
-                                        Expanded(
-                                          child: IconButton(
-                                              icon: Icon(Icons.close, size: 40),
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                                value.stopRecorder();
-                                                value.resumeRecorder();
-                                              }),
-                                        ),
-                                        Expanded(
-                                          child: IconButton(
-                                              icon: Icon(value.recording ? Icons.stop : Icons.mic,
-                                                  size: 40),
-                                              onPressed: () async {
-                                                setState(() {
-                                                  if (!value.recording) {
-                                                    value.record();
-                                                  } else {
-                                                    value.stopRecorder();
-                                                    Navigator.pop(context);
-                                                    Provider.of<Controller>(context, listen: false)
-                                                        .newAudioAction(value.mPath);
-                                                  }
-                                                });
-                                              }),
-                                        ),
-                                        Expanded(
-                                          child: IconButton(
-                                              icon: Icon(value.paused ? Icons.play_arrow : Icons.pause,
-                                                  color: value.recording ? Colors.black : Colors.grey,
-                                                  size: 40),
-                                              onPressed: () async {
-                                                if (value.recording) {
-                                                  if (!value.paused) {
-                                                    setState(() {
-                                                      value.pauseRecorder();
-                                                    });
-                                                  } else {
-                                                    setState(() {
-                                                      value.resumeRecorder();
-                                                    });
-                                                  }
-                                                }
-                                              }),
-                                        ),
-                                      ]))),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: BottomBar(
+                                                child: Center(
+                                                    child: Text(value.audioDuration,
+                                                        style: const TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.bold)))),
+                                          ),
+                                          Expanded(
+                                            child: Row(children: [
+                                              Expanded(
+                                                child: CircleAvatar(
+                                                  backgroundColor:
+                                                      const Color.fromARGB(255, 248, 113, 103),
+                                                  child: IconButton(
+                                                      icon: const Icon(Icons.close,
+                                                          size: 25, color: Colors.white),
+                                                      onPressed: () async {
+                                                        Navigator.pop(context);
+                                                        value.stopRecorder();
+                                                        value.restartDuration();
+                                                        if (value.recording) {
+                                                          value.resumeRecorder();
+                                                        }
+                                                      }),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: CircleAvatar(
+                                                  radius: screenWidth / 10,
+                                                  backgroundColor:
+                                                      value.recording ? Colors.red : Colors.blue,
+                                                  child: IconButton(
+                                                      icon: Icon(
+                                                          value.recording ? Icons.stop : Icons.mic,
+                                                          color: Colors.white,
+                                                          size: 30),
+                                                      onPressed: () async {
+                                                        setState(() {
+                                                          if (!value.recording) {
+                                                            value.setState = setState;
+                                                            value.record();
+                                                          } else {
+                                                            value.stopRecorder();
+                                                            Navigator.pop(context);
+                                                            Provider.of<Controller>(context,
+                                                                    listen: false)
+                                                                .newAudioAction(
+                                                                    value.mPath,
+                                                                    value.audioDuration,
+                                                                    value.rawDuration,
+                                                                    value.isPlaying);
+                                                            value.restartDuration();
+                                                          }
+                                                        });
+                                                      }),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: CircleAvatar(
+                                                  backgroundColor:
+                                                      value.recording ? Colors.blue : Colors.grey,
+                                                  child: IconButton(
+                                                      icon: Icon(
+                                                          value.paused ? Icons.play_arrow : Icons.pause,
+                                                          color: Colors.white,
+                                                          size: 25),
+                                                      onPressed: () async {
+                                                        if (value.recording) {
+                                                          if (!value.paused) {
+                                                            setState(() {
+                                                              value.pauseRecorder();
+                                                            });
+                                                          } else {
+                                                            setState(() {
+                                                              value.resumeRecorder();
+                                                            });
+                                                          }
+                                                        }
+                                                      }),
+                                                ),
+                                              ),
+                                            ]),
+                                          ),
+                                        ],
+                                      ))),
                                 );
                               });
                         }),
