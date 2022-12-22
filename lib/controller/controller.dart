@@ -107,13 +107,13 @@ class Controller extends ChangeNotifier {
       Provider.of<AudioController>(context, listen: false).stopPlayer();
     }
 
-    pauseAudioIndicator(index);
-
     Future.delayed(Duration(seconds: noteBody[index][2]), () {
       if (noteBody[index][3] == true) {
         pauseAudioIndicator(index);
       }
     });
+
+    pauseAudioIndicator(index);
   }
 
   void getImage() async {

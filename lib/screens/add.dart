@@ -13,6 +13,7 @@ import "../controller/controller.dart";
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
+import '../widgets/notescreen/audionote.dart';
 import '../widgets/notescreen/imagetype.dart';
 import '../widgets/notescreen/bottombar.dart';
 import '../widgets/notescreen/bottomitem.dart';
@@ -93,18 +94,7 @@ class AddScreen extends StatelessWidget {
                               ]))
                         else if (value.noteBody[i].length == 4)
                           Row(children: [
-                            IconButton(
-                                icon: Icon(
-                                    value.noteBody[i][3] == false ? Icons.play_arrow : Icons.pause,
-                                    color: value.noteBody[i][3] == false ? Colors.black : Colors.blue),
-                                onPressed: () => value.audioPauseHandler(i, context)),
-                            Container(
-                                height: 5,
-                                width: screenWidth / 1.6,
-                                color: value.noteBody[i][3] == false ? Colors.black : Colors.blue),
-                            SizedBox(width: screenWidth / 50),
-                            Text(value.noteBody[i][1].toString()),
-                            SizedBox(width: screenWidth / 40),
+                            AudioNote(value:value, i:i),
                             DeleteButton(onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               value.removeAction(i);
