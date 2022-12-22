@@ -6,11 +6,14 @@ import 'package:provider/provider.dart';
 
 import 'dart:typed_data';
 
+import '../controller/audiocontroller.dart';
 import "../controller/controller.dart";
 
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
+import '../widgets/notescreen/audiocircle.dart';
+import '../widgets/notescreen/audionote.dart';
 import '../widgets/notescreen/imagetype.dart';
 import '../widgets/notescreen/bottombar.dart';
 import '../widgets/notescreen/bottomitem.dart';
@@ -93,6 +96,14 @@ class EditScreen extends StatelessWidget {
                                   value.removeAction(i);
                                 }),
                               ]))
+                        else if (value.noteBody[i][3] is bool)
+                          Row(children: [
+                            AudioNote(value: value, i: i),
+                            DeleteButton(onPressed: () {
+                              FocusManager.instance.primaryFocus?.unfocus();
+                              value.removeAction(i);
+                            }),
+                          ])
                     ],
                   ))),
         ),
@@ -168,15 +179,71 @@ class EditScreen extends StatelessWidget {
                                   ]));
                             });
                       }),
-                  BottomBarItem(icon: Icons.mic, color: Colors.grey, onPressed: () {})
+                  Consumer<AudioController>(
+                    builder: (context, value, child) => BottomBarItem(
+                        icon: Icons.mic,
+                        color: Colors.black,
+                        onPressed: () async {
+                          value.initPlayerAndRecorder();
+                          showModalBottomSheet(
+                              context: context,
+                              isDismissible: false,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                  builder: ((context, setState) => Container(
+                                      height: screenHeight / 3,
+                                      width: screenWidth,
+                                      color: Colors.yellow[200],
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: BottomBar(
+                                                child: Center(
+                                                    child: Text(value.audioDuration,
+                                                        style: const TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight: FontWeight.bold)))),
+                                          ),
+                                          Expanded(
+                                            child: Row(children: [
+                                              AudioCircle(
+                                                  radius: screenWidth / 20,
+                                                  backgroundColor:
+                                                      const Color.fromARGB(255, 248, 113, 103),
+                                                  icon: const Icon(Icons.close,
+                                                      size: 25, color: Colors.white),
+                                                  onPressed: () => value.recorderCloseHandler(context)),
+                                              AudioCircle(
+                                                  radius: screenWidth / 10,
+                                                  backgroundColor:
+                                                      value.recording ? Colors.red : Colors.blue,
+                                                  icon: Icon(value.recording ? Icons.stop : Icons.mic,
+                                                      color: Colors.white, size: 30),
+                                                  onPressed: () =>
+                                                      value.recorderStartStopHandler(setState, context)),
+                                              AudioCircle(
+                                                  radius: screenWidth / 20,
+                                                  backgroundColor:
+                                                      value.recording ? Colors.blue : Colors.grey,
+                                                  icon: Icon(
+                                                      value.paused ? Icons.play_arrow : Icons.pause,
+                                                      color: Colors.white,
+                                                      size: 25),
+                                                  onPressed: () => value.recorderPauseHandler(setState)),
+                                            ]),
+                                          ),
+                                        ],
+                                      ))),
+                                );
+                              });
+                        }),
+                  )
                 ],
               )),
               BigIconButton(
                   color: const Color.fromARGB(255, 255, 238, 88),
                   icon: Icons.check,
                   onPressed: () {
-                    controller.noteDate =
-                        "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
                     controller.editAction(index);
                     Navigator.push(
                         context,

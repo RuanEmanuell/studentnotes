@@ -13,6 +13,7 @@ import "../controller/controller.dart";
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
+import '../widgets/notescreen/audiocircle.dart';
 import '../widgets/notescreen/audionote.dart';
 import '../widgets/notescreen/imagetype.dart';
 import '../widgets/notescreen/bottombar.dart';
@@ -92,9 +93,9 @@ class AddScreen extends StatelessWidget {
                                   value.removeAction(i);
                                 }),
                               ]))
-                        else if (value.noteBody[i].length == 4)
+                        else if (value.noteBody[i][3] is bool)
                           Row(children: [
-                            AudioNote(value:value, i:i),
+                            AudioNote(value: value, i: i),
                             DeleteButton(onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
                               value.removeAction(i);
@@ -202,48 +203,30 @@ class AddScreen extends StatelessWidget {
                                           ),
                                           Expanded(
                                             child: Row(children: [
-                                              Expanded(
-                                                child: CircleAvatar(
+                                              AudioCircle(
+                                                  radius: screenWidth / 20,
                                                   backgroundColor:
                                                       const Color.fromARGB(255, 248, 113, 103),
-                                                  child: IconButton(
-                                                      icon: const Icon(Icons.close,
-                                                          size: 25, color: Colors.white),
-                                                      onPressed: () async {
-                                                        value.recorderCloseHandler(context);
-                                                      }),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: CircleAvatar(
+                                                  icon: const Icon(Icons.close,
+                                                      size: 25, color: Colors.white),
+                                                  onPressed: () => value.recorderCloseHandler(context)),
+                                              AudioCircle(
                                                   radius: screenWidth / 10,
                                                   backgroundColor:
                                                       value.recording ? Colors.red : Colors.blue,
-                                                  child: IconButton(
-                                                      icon: Icon(
-                                                          value.recording ? Icons.stop : Icons.mic,
-                                                          color: Colors.white,
-                                                          size: 30),
-                                                      onPressed: () async {
-                                                        value.recorderStartStopHandler(
-                                                            setState, context);
-                                                      }),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: CircleAvatar(
+                                                  icon: Icon(value.recording ? Icons.stop : Icons.mic,
+                                                      color: Colors.white, size: 30),
+                                                  onPressed: () =>
+                                                      value.recorderStartStopHandler(setState, context)),
+                                              AudioCircle(
+                                                  radius: screenWidth / 20,
                                                   backgroundColor:
                                                       value.recording ? Colors.blue : Colors.grey,
-                                                  child: IconButton(
-                                                      icon: Icon(
-                                                          value.paused ? Icons.play_arrow : Icons.pause,
-                                                          color: Colors.white,
-                                                          size: 25),
-                                                      onPressed: () async {
-                                                        value.recorderPauseHandler(setState);
-                                                      }),
-                                                ),
-                                              ),
+                                                  icon: Icon(
+                                                      value.paused ? Icons.play_arrow : Icons.pause,
+                                                      color: Colors.white,
+                                                      size: 25),
+                                                  onPressed: () => value.recorderPauseHandler(setState)),
                                             ]),
                                           ),
                                         ],
