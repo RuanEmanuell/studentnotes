@@ -30,14 +30,8 @@ import 'paint.dart';
 import "home.dart";
 import 'drawn.dart';
 import "image.dart";
-import 'record.dart';
 
-class AddScreen extends StatefulWidget {
-  @override
-  State<AddScreen> createState() => _AddScreenState();
-}
-
-class _AddScreenState extends State<AddScreen> {
+class AddScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -196,26 +190,72 @@ class _AddScreenState extends State<AddScreen> {
                                   ]));
                             });
                       }),
-                  BottomBarItem(
-                      icon: Icons.mic,
-                      color: Colors.grey,
-                      onPressed: () async {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return SizedBox(
-                                  height: screenHeight / 3,
-                                  width: screenWidth,
-                                  child: Row(children: [
-                                    IconButton(
-                                        icon: Icon(Icons.mic),
-                                        onPressed: () async {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (context) => SimpleRecorder()));
-                                        }),
-                                  ]));
-                            });
-                      })
+                  Consumer<AudioController>(
+                    builder: (context, value, child) => BottomBarItem(
+                        icon: Icons.mic,
+                        color: Colors.black,
+                        onPressed: () async {
+                          value.initPlayerAndRecorder();
+                          showModalBottomSheet(
+                              context: context,
+                              isDismissible: false,
+                              builder: (context) {
+                                return StatefulBuilder(
+                                  builder: ((context, setState) => Container(
+                                      height: screenHeight / 3,
+                                      width: screenWidth,
+                                      color: Colors.yellow[200],
+                                      child: Row(children: [
+                                        Expanded(
+                                          child: IconButton(
+                                              icon: Icon(Icons.close, size: 40),
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                value.stopRecorder();
+                                                value.resumeRecorder();
+                                              }),
+                                        ),
+                                        Expanded(
+                                          child: IconButton(
+                                              icon: Icon(value.recording ? Icons.stop : Icons.mic,
+                                                  size: 40),
+                                              onPressed: () async {
+                                                setState(() {
+                                                  if (!value.recording) {
+                                                    value.record();
+                                                  } else {
+                                                    value.stopRecorder();
+                                                    Navigator.pop(context);
+                                                    Provider.of<Controller>(context, listen: false)
+                                                        .newAudioAction(value.mPath);
+                                                  }
+                                                });
+                                              }),
+                                        ),
+                                        Expanded(
+                                          child: IconButton(
+                                              icon: Icon(value.paused ? Icons.play_arrow : Icons.pause,
+                                                  color: value.recording ? Colors.black : Colors.grey,
+                                                  size: 40),
+                                              onPressed: () async {
+                                                if (value.recording) {
+                                                  if (!value.paused) {
+                                                    setState(() {
+                                                      value.pauseRecorder();
+                                                    });
+                                                  } else {
+                                                    setState(() {
+                                                      value.resumeRecorder();
+                                                    });
+                                                  }
+                                                }
+                                              }),
+                                        ),
+                                      ]))),
+                                );
+                              });
+                        }),
+                  )
                 ],
               )),
               BigIconButton(
