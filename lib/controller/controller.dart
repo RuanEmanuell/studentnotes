@@ -2,6 +2,9 @@ import 'dart:io';
 
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import 'audiocontroller.dart';
 
 class Controller extends ChangeNotifier {
   String noteName = "";
@@ -21,6 +24,7 @@ class Controller extends ChangeNotifier {
   var imageOption = ImageSource.gallery;
 
   void createAction() {
+    noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     notes.add([noteName, noteBody, noteDate]);
     notifyListeners();
   }
@@ -94,6 +98,22 @@ class Controller extends ChangeNotifier {
     noteBody = [""];
     noteDate = "";
     notifyListeners();
+  }
+
+  void audioPauseHandler(index, context) {
+    if (noteBody[index][3] == false) {
+      Provider.of<AudioController>(context, listen: false).play(noteBody[index][0]);
+    } else {
+      Provider.of<AudioController>(context, listen: false).stopPlayer();
+    }
+
+    pauseAudioIndicator(index);
+
+    Future.delayed(Duration(seconds: noteBody[index][2]), () {
+      if (noteBody[index][3] == true) {
+        pauseAudioIndicator(index);
+      }
+    });
   }
 
   void getImage() async {

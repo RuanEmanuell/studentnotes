@@ -97,22 +97,7 @@ class AddScreen extends StatelessWidget {
                                 icon: Icon(
                                     value.noteBody[i][3] == false ? Icons.play_arrow : Icons.pause,
                                     color: value.noteBody[i][3] == false ? Colors.black : Colors.blue),
-                                onPressed: () async {
-                                  if (value.noteBody[i][3] == false) {
-                                    Provider.of<AudioController>(context, listen: false)
-                                        .play(value.noteBody[i][0]);
-                                  } else {
-                                    Provider.of<AudioController>(context, listen: false).stopPlayer();
-                                  }
-
-                                  value.pauseAudioIndicator(i);
-
-                                  Future.delayed(Duration(seconds: value.noteBody[i][2]), () {
-                                    if (value.noteBody[i][3] == true) {
-                                      value.pauseAudioIndicator(i);
-                                    }
-                                  });
-                                }),
+                                onPressed: () => value.audioPauseHandler(i, context)),
                             Container(
                                 height: 5,
                                 width: screenWidth / 1.6,
@@ -235,12 +220,7 @@ class AddScreen extends StatelessWidget {
                                                       icon: const Icon(Icons.close,
                                                           size: 25, color: Colors.white),
                                                       onPressed: () async {
-                                                        Navigator.pop(context);
-                                                        value.stopRecorder();
-                                                        value.restartDuration();
-                                                        if (value.recording) {
-                                                          value.resumeRecorder();
-                                                        }
+                                                        value.recorderCloseHandler(context);
                                                       }),
                                                 ),
                                               ),
@@ -255,23 +235,8 @@ class AddScreen extends StatelessWidget {
                                                           color: Colors.white,
                                                           size: 30),
                                                       onPressed: () async {
-                                                        setState(() {
-                                                          if (!value.recording) {
-                                                            value.setState = setState;
-                                                            value.record();
-                                                          } else {
-                                                            value.stopRecorder();
-                                                            Navigator.pop(context);
-                                                            Provider.of<Controller>(context,
-                                                                    listen: false)
-                                                                .newAudioAction(
-                                                                    value.mPath,
-                                                                    value.audioDuration,
-                                                                    value.rawDuration,
-                                                                    value.isPlaying);
-                                                            value.restartDuration();
-                                                          }
-                                                        });
+                                                        value.recorderStartStopHandler(
+                                                            setState, context);
                                                       }),
                                                 ),
                                               ),
@@ -285,17 +250,7 @@ class AddScreen extends StatelessWidget {
                                                           color: Colors.white,
                                                           size: 25),
                                                       onPressed: () async {
-                                                        if (value.recording) {
-                                                          if (!value.paused) {
-                                                            setState(() {
-                                                              value.pauseRecorder();
-                                                            });
-                                                          } else {
-                                                            setState(() {
-                                                              value.resumeRecorder();
-                                                            });
-                                                          }
-                                                        }
+                                                        value.recorderPauseHandler(setState);
                                                       }),
                                                 ),
                                               ),
@@ -313,8 +268,6 @@ class AddScreen extends StatelessWidget {
                   color: const Color.fromARGB(255, 255, 238, 88),
                   icon: Icons.check,
                   onPressed: () {
-                    controller.noteDate =
-                        "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
                     controller.createAction();
                     Navigator.push(
                         context,

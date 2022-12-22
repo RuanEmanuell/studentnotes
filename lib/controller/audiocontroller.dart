@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform_interface.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+
+import 'controller.dart';
 
 class AudioController extends ChangeNotifier {
   int audio = 0;
@@ -24,7 +27,6 @@ class AudioController extends ChangeNotifier {
   var audioDuration = "00:00";
   var durationTimer;
   var rawDuration = 0;
-  var setState;
 
   var theSource = AudioSource.microphone;
 
@@ -64,7 +66,7 @@ class AudioController extends ChangeNotifier {
     mRecorderIsInited = true;
   }
 
-  void record() {
+  void record(setState) {
     audio++;
     mPath = "audio$audio.mp4";
     mRecorder!.startRecorder(
@@ -73,7 +75,7 @@ class AudioController extends ChangeNotifier {
       audioSource: theSource,
     );
     recording = true;
-    durationCreator();
+    durationCreator(setState);
     notifyListeners();
   }
 
@@ -113,6 +115,7 @@ class AudioController extends ChangeNotifier {
     durationMinutes = 0;
     audioDuration = "00:00";
     rawDuration = 0;
+    paused = false;
     notifyListeners();
   }
 
@@ -126,12 +129,11 @@ class AudioController extends ChangeNotifier {
     });
   }
 
-  void durationCreator() {
+  void durationCreator(setState) {
     durationTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (!paused) {
           rawDuration++;
-
           if (durationSeconds > 59) {
             durationSeconds = 0;
             durationMinutes++;
@@ -151,5 +153,42 @@ class AudioController extends ChangeNotifier {
         }
       });
     });
+  }
+
+  void recorderCloseHandler(context) {
+    Navigator.pop(context);
+    stopRecorder();
+    restartDuration();
+    if (recording) {
+      resumeRecorder();
+    }
+  }
+
+  void recorderStartStopHandler(setState, context) {
+    setState(() {
+      if (!recording) {
+        record(setState);
+      } else {
+        stopRecorder();
+        Navigator.pop(context);
+        Provider.of<Controller>(context, listen: false)
+            .newAudioAction(mPath, audioDuration, rawDuration, isPlaying);
+        restartDuration();
+      }
+    });
+  }
+
+  void recorderPauseHandler(setState) {
+    if (recording) {
+      if (!paused) {
+        setState(() {
+          pauseRecorder();
+        });
+      } else {
+        setState(() {
+          resumeRecorder();
+        });
+      }
+    }
   }
 }
