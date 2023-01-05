@@ -7,7 +7,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Controller>(
-      builder:(context, value, child) => AppBar(
+      builder: (context, value, child) => AppBar(
           backgroundColor: value.noteBody[0][1],
           elevation: 0,
           leading: IconButton(

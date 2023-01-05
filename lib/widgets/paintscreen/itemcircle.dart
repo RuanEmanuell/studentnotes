@@ -14,7 +14,10 @@ class ColorCircle extends StatelessWidget {
         margin: EdgeInsets.all(screenWidth / 30),
         height: screenHeight / 17,
         width: screenWidth / 10,
-        decoration: BoxDecoration(color: colors[i],                                                border:Border.all(color: Colors.black, width:2), borderRadius: BorderRadius.circular(100)));
+        decoration: BoxDecoration(
+            color: colors[i],
+            border: Border.all(color: Colors.black, width: 2),
+            borderRadius: BorderRadius.circular(100)));
   }
 }
 

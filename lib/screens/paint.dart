@@ -21,8 +21,7 @@ class PaintScreen extends StatelessWidget {
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
         backgroundColor: controller.noteBody[0][0],
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
                   margin: const EdgeInsets.all(10),
@@ -54,7 +53,7 @@ class PaintScreen extends StatelessWidget {
                               showModalBottomSheet(
                                 context: context,
                                 builder: (context) => Container(
-                                color:controller.noteBody[0][1],
+                                    color: controller.noteBody[0][1],
                                     height: screenHeight / 5,
                                     child: Wrap(alignment: WrapAlignment.center, children: [
                                       for (var i = 0; i < value.colors.length; i++)
@@ -74,7 +73,7 @@ class PaintScreen extends StatelessWidget {
                             showModalBottomSheet(
                               context: context,
                               builder: (context) => Container(
-                                color:controller.noteBody[0][1],
+                                  color: controller.noteBody[0][1],
                                   height: screenHeight / 5,
                                   child: Wrap(alignment: WrapAlignment.center, children: [
                                     for (var i = 10; i > 0; i--)
@@ -83,7 +82,7 @@ class PaintScreen extends StatelessWidget {
                                             value.changePencil(i);
                                             Navigator.pop(context);
                                           },
-                                          child: PencilCircle(i: i, controller:controller))
+                                          child: PencilCircle(i: i, controller: controller))
                                   ])),
                             );
                           },
