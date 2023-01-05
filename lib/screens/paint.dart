@@ -20,9 +20,9 @@ class PaintScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 238, 88),
+        backgroundColor: controller.noteBody[0][0],
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar(value: controller)),
+            preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
                   margin: const EdgeInsets.all(10),
@@ -41,7 +41,7 @@ class PaintScreen extends StatelessWidget {
                 ))),
         bottomNavigationBar: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
-                  color: Colors.yellow[200],
+                  color: controller.noteBody[0][1],
                   padding: MediaQuery.of(context).viewInsets,
                   child: Row(
                     children: [
@@ -49,11 +49,12 @@ class PaintScreen extends StatelessWidget {
                           child: Row(children: [
                         BottomBarItem(
                             icon: Icons.palette,
-                            color: value.colorChanger,
+                            color: Colors.black,
                             onPressed: () {
                               showModalBottomSheet(
                                 context: context,
-                                builder: (context) => SizedBox(
+                                builder: (context) => Container(
+                                color:controller.noteBody[0][1],
                                     height: screenHeight / 5,
                                     child: Wrap(alignment: WrapAlignment.center, children: [
                                       for (var i = 0; i < value.colors.length; i++)
@@ -72,7 +73,8 @@ class PaintScreen extends StatelessWidget {
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,
-                              builder: (context) => SizedBox(
+                              builder: (context) => Container(
+                                color:controller.noteBody[0][1],
                                   height: screenHeight / 5,
                                   child: Wrap(alignment: WrapAlignment.center, children: [
                                     for (var i = 10; i > 0; i--)
@@ -81,7 +83,7 @@ class PaintScreen extends StatelessWidget {
                                             value.changePencil(i);
                                             Navigator.pop(context);
                                           },
-                                          child: PencilCircle(i: i))
+                                          child: PencilCircle(i: i, controller:controller))
                                   ])),
                             );
                           },
@@ -96,7 +98,7 @@ class PaintScreen extends StatelessWidget {
                             })
                       ])),
                       BigIconButton(
-                        color: const Color.fromARGB(255, 255, 238, 88),
+                        color: controller.noteBody[0][0],
                         icon: Icons.save,
                         onPressed: () async {
                           final sign = value.sign.currentState;

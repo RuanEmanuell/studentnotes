@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 var colors = [
-  [Color.fromARGB(255, 245, 226, 55), Color.fromARGB(255, 255, 245, 157)],
-  [Color.fromARGB(255, 244, 67, 54), Color.fromARGB(255, 229, 115, 115)],
-  [Color.fromARGB(255, 76, 175, 80), Color.fromARGB(255, 129, 199, 132)],
-  [Color.fromARGB(255, 33, 150, 243), Color.fromARGB(255, 100, 181, 246)]
+  [Colors.yellow, Colors.yellow[200]],
+  [Colors.lime, Colors.lime[200]],
+  [Colors.green, Colors.green[200]],
+  [Colors.blue, Colors.blue[200]],
+  [Colors.lightBlue, Colors.lightBlue[200]],
+  [Colors.purple[300], Colors.purple[200]],
+  [Colors.pink[300], Colors.pink[200]],
+  [Colors.red[400], Colors.red[200]],
+  [Colors.orange, Colors.orange[200]],
+  [Colors.grey, Colors.grey[600]]
 ];

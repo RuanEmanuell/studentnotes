@@ -24,8 +24,6 @@ class Controller extends ChangeNotifier {
 
   var imageOption = ImageSource.gallery;
 
-  var colorNumber = 0;
-
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     notes.add([noteName, noteBody, noteDate]);
@@ -108,10 +106,8 @@ class Controller extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeColor() {
-    colorNumber++;
+  void changeColor(colorNumber) {
     noteBody[0] = colors[colorNumber];
-    print(noteBody[0]);
     notifyListeners();
   }
 
