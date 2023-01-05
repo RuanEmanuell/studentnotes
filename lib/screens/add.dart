@@ -39,71 +39,77 @@ class AddScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
-        body: SingleChildScrollView(
-          child: Consumer<Controller>(
-              builder: ((context, value, child) => Column(
-                    children: [
-                      NoteTitle(value: value),
-                      for (var i = 0; i < value.noteBody.length; i++)
-                        if (value.noteBody[i] is String)
-                          Row(children: [
-                            TextNote(value: value, i: i),
-                            if (value.textNote > 1)
-                              DeleteButton(onPressed: () {
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                value.removeAction(i);
-                              })
-                          ])
-                        else if (value.noteBody[i].length == 2)
-                          Row(children: [
-                            CheckNote(value: value, i: i),
-                            SizedBox(width: screenWidth / 25),
-                            DeleteButton(onPressed: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              value.removeAction(i);
-                            }),
-                          ])
-                        else if (value.noteBody[i] is ByteData)
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => DrawnScreen(drawn: value.noteBody[i])));
-                              },
-                              child: Row(children: [
-                                DrawnNote(value: value, i: i),
-                                DeleteButton(onPressed: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeAction(i);
-                                }),
-                              ]))
-                        else if (value.noteBody[i] is File)
-                          InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ImageScreen(image: value.noteBody[i])));
-                              },
-                              child: Row(children: [
-                                ImageNote(value: value, i: i),
-                                DeleteButton(onPressed: () {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                  value.removeAction(i);
-                                }),
-                              ]))
-                        else if (value.noteBody[i][3] is bool)
-                          Row(children: [
-                            AudioNote(value: value, i: i),
-                            DeleteButton(onPressed: () {
-                              FocusManager.instance.primaryFocus?.unfocus();
-                              value.removeAction(i);
-                            }),
-                          ])
-                    ],
-                  ))),
-        ),
+        body: Consumer<Controller>(
+            builder: ((context, value, child) => Column(
+                  children: [
+                    NoteTitle(value: value),
+                    Container(
+                      height: screenHeight / 1.6,
+                      child: ListView.builder(
+                        itemCount: value.noteBody.length,
+                        itemBuilder: (context, index) {
+                          return value.noteBody[index] is String
+                              ? Row(children: [
+                                  TextNote(value: value, index: index),
+                                  if (value.textNote > 1)
+                                    DeleteButton(onPressed: () {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+                                      value.removeAction(index);
+                                    })
+                                ])
+                              : value.noteBody[index].length == 2
+                                  ? Row(children: [
+                                      CheckNote(value: value, index: index),
+                                      SizedBox(width: screenWidth / 25),
+                                      DeleteButton(onPressed: () {
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        value.removeAction(index);
+                                      }),
+                                    ])
+                                  : value.noteBody[index] is ByteData
+                                      ? InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DrawnScreen(drawn: value.noteBody[index])));
+                                          },
+                                          child: Row(children: [
+                                            DrawnNote(value: value, index: index),
+                                            DeleteButton(onPressed: () {
+                                              FocusManager.instance.primaryFocus?.unfocus();
+                                              value.removeAction(index);
+                                            }),
+                                          ]))
+                                      : value.noteBody[index] is File
+                                          ? InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            ImageScreen(image: value.noteBody[index])));
+                                              },
+                                              child: Row(children: [
+                                                ImageNote(value: value, index: index),
+                                                DeleteButton(onPressed: () {
+                                                  FocusManager.instance.primaryFocus?.unfocus();
+                                                  value.removeAction(index);
+                                                }),
+                                              ]))
+                                          : Row(children: [
+                                              AudioNote(value: value, index: index),
+                                              DeleteButton(onPressed: () {
+                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                value.removeAction(index);
+                                              }),
+                                            ]);
+                        },
+                      ),
+                    ),
+                  ],
+                ))),
         bottomNavigationBar: Container(
           color: Colors.yellow[200],
           padding: MediaQuery.of(context).viewInsets,

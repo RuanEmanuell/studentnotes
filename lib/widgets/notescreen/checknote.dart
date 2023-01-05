@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CheckNote extends StatelessWidget {
   var value;
-  var i;
+  var index;
 
-  CheckNote({required this.value, required this.i});
+  CheckNote({required this.value, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -12,10 +12,10 @@ class CheckNote extends StatelessWidget {
     return SizedBox(
         width: screenWidth / 1.2,
         child: CheckboxListTile(
-          title: Text(value.noteBody[i][0]),
-          value: value.noteBody[i][1],
+          title: Text(value.noteBody[index][0]),
+          value: value.noteBody[index][1],
           onChanged: (newValue) {
-            value.changeCheckAction(i);
+            value.changeCheckAction(index);
           },
         ));
   }

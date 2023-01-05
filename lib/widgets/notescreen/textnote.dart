@@ -2,9 +2,9 @@ import "package:flutter/material.dart";
 
 class TextNote extends StatelessWidget {
   var value;
-  var i;
+  var index;
 
-  TextNote({required this.value, required this.i});
+  TextNote({required this.value, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -15,14 +15,14 @@ class TextNote extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.multiline,
         maxLines: null,
-        controller: TextEditingController(text: value.noteBody[i]),
+        controller: TextEditingController(text: value.noteBody[index]),
         decoration: const InputDecoration(
             labelText: "Your note here...",
             labelStyle: TextStyle(color: Colors.brown),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: InputBorder.none),
         onChanged: (newValue) {
-          value.noteBody[i] = newValue;
+          value.noteBody[index] = newValue;
         },
       ),
     );
