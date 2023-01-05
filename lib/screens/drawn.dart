@@ -16,7 +16,7 @@ class DrawnScreen extends StatelessWidget {
         child: Container(
             height: screenHeight,
             decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
-            child: Image.memory(drawn.buffer.asUint8List())),
+            child: Image.memory(drawn[1].buffer.asUint8List())),
       ),
       SafeArea(
           child: Container(

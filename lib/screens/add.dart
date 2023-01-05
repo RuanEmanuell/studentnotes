@@ -37,8 +37,9 @@ class AddScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
+        backgroundColor: controller.noteBody[0][0],
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar(value: controller)),
         body: Consumer<Controller>(
             builder: ((context, value, child) => Column(
                   children: [
@@ -48,7 +49,7 @@ class AddScreen extends StatelessWidget {
                       child: ListView.builder(
                         itemCount: value.noteBody.length,
                         itemBuilder: (context, index) {
-                          return value.noteBody[index] is String
+                          return value.noteBody[index][0] == "text"
                               ? Row(children: [
                                   TextNote(value: value, index: index),
                                   if (value.textNote > 1)
@@ -57,7 +58,7 @@ class AddScreen extends StatelessWidget {
                                       value.removeAction(index);
                                     })
                                 ])
-                              : value.noteBody[index].length == 2
+                              : value.noteBody[index][0] == "check"
                                   ? Row(children: [
                                       CheckNote(value: value, index: index),
                                       SizedBox(width: screenWidth / 25),
@@ -66,7 +67,7 @@ class AddScreen extends StatelessWidget {
                                         value.removeAction(index);
                                       }),
                                     ])
-                                  : value.noteBody[index] is ByteData
+                                  : value.noteBody[index][0] == "drawn"
                                       ? InkWell(
                                           onTap: () {
                                             Navigator.push(
@@ -82,7 +83,7 @@ class AddScreen extends StatelessWidget {
                                               value.removeAction(index);
                                             }),
                                           ]))
-                                      : value.noteBody[index] is File
+                                      : value.noteBody[index][0] == "image"
                                           ? InkWell(
                                               onTap: () {
                                                 Navigator.push(
@@ -98,20 +99,22 @@ class AddScreen extends StatelessWidget {
                                                   value.removeAction(index);
                                                 }),
                                               ]))
-                                          : Row(children: [
-                                              AudioNote(value: value, index: index),
-                                              DeleteButton(onPressed: () {
-                                                FocusManager.instance.primaryFocus?.unfocus();
-                                                value.removeAction(index);
-                                              }),
-                                            ]);
+                                          : value.noteBody[index][0] == "audio"
+                                              ? Row(children: [
+                                                  AudioNote(value: value, index: index),
+                                                  DeleteButton(onPressed: () {
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    value.removeAction(index);
+                                                  }),
+                                                ])
+                                              : Container();
                         },
                       ),
                     ),
                   ],
                 ))),
         bottomNavigationBar: Container(
-          color: Colors.yellow[200],
+          color: controller.noteBody[0][1],
           padding: MediaQuery.of(context).viewInsets,
           child: Row(
             children: [
@@ -239,6 +242,14 @@ class AddScreen extends StatelessWidget {
                                       ))),
                                 );
                               });
+                        }),
+                  ),
+                  Consumer<Controller>(
+                    builder: (context, value, child) => BottomBarItem(
+                        icon: Icons.palette,
+                        color: Colors.black,
+                        onPressed: () {
+                          value.changeColor();
                         }),
                   )
                 ],

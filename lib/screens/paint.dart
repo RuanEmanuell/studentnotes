@@ -21,7 +21,8 @@ class PaintScreen extends StatelessWidget {
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 238, 88),
-        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar(value: controller)),
         body: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
                   margin: const EdgeInsets.all(10),

@@ -26,6 +26,7 @@ class AudioController extends ChangeNotifier {
   var durationMinutes = 0;
   var audioDuration = "00:00";
   var durationTimer;
+  var rawDurationTimer;
   var rawDuration = 0;
 
   var theSource = AudioSource.microphone;
@@ -85,6 +86,7 @@ class AudioController extends ChangeNotifier {
       recording = false;
     });
     durationTimer.cancel();
+    rawDurationTimer.cancel();
     notifyListeners();
   }
 
@@ -152,6 +154,11 @@ class AudioController extends ChangeNotifier {
           }
         }
       });
+    });
+    rawDurationTimer = Timer.periodic(const Duration(milliseconds: 250), (timer) {
+      if (!paused) {
+        rawDuration = rawDuration + 250;
+      }
     });
   }
 

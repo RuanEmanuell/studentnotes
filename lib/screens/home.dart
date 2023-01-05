@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                                     child: Container(
                                         width: screenWidth / 2,
                                         decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: value.notes[index][1][0][0],
                                             borderRadius: BorderRadius.circular(20),
                                             boxShadow: const [
                                               BoxShadow(
@@ -58,9 +58,7 @@ class HomeScreen extends StatelessWidget {
                                           child: Column(children: [
                                             BallonText(text: value.notes[index][0], fontSize: 25.0),
                                             const SizedBox(height: 10),
-                                            if (value.notes[index][1][0] is String &&
-                                                value.notes[index][1][0].isNotEmpty)
-                                              BallonText(fontSize: 15.0, text: value.notes[index][1][0])
+                                            BallonText(fontSize: 15.0, text: value.notes[index][1][1][1])
                                           ]),
                                         )),
                                   ),

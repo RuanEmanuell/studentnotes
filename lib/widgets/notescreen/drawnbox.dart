@@ -16,6 +16,6 @@ class DrawnNote extends StatelessWidget {
             BoxDecoration(color: Colors.white, border: Border.all(width: 3, color: Colors.black)),
         height: screenHeight / 2.5,
         width: screenWidth / 1.2,
-        child: Image.memory(value.noteBody[index].buffer.asUint8List()));
+        child: Image.memory(value.noteBody[index][1].buffer.asUint8List()));
   }
 }

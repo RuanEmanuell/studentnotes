@@ -11,15 +11,15 @@ class AudioNote extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     return Row(children: [
       IconButton(
-          icon: Icon(value.noteBody[index][3] == false ? Icons.play_arrow : Icons.pause,
-              color: value.noteBody[index][3] == false ? Colors.black : Colors.blue),
+          icon: Icon(value.noteBody[index][4] == false ? Icons.play_arrow : Icons.pause,
+              color: value.noteBody[index][4] == false ? Colors.black : Colors.blue),
           onPressed: () => value.audioPauseHandler(index, context)),
       Container(
           height: 5,
           width: screenWidth / 1.6,
-          color: value.noteBody[index][3] == false ? Colors.black : Colors.blue),
+          color: value.noteBody[index][4] == false ? Colors.black : Colors.blue),
       SizedBox(width: screenWidth / 20),
-      Text(value.noteBody[index][1].toString()),
+      Text(value.noteBody[index][2].toString()),
     ]);
   }
 }

@@ -12,8 +12,8 @@ class CheckNote extends StatelessWidget {
     return SizedBox(
         width: screenWidth / 1.2,
         child: CheckboxListTile(
-          title: Text(value.noteBody[index][0]),
-          value: value.noteBody[index][1],
+          title: Text(value.noteBody[index][1]),
+          value: value.noteBody[index][2],
           onChanged: (newValue) {
             value.changeCheckAction(index);
           },

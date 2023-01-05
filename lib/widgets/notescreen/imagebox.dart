@@ -16,6 +16,6 @@ class ImageNote extends StatelessWidget {
             BoxDecoration(color: Colors.white, border: Border.all(width: 3, color: Colors.black)),
         height: screenHeight / 2.5,
         width: screenWidth / 1.2,
-        child: Image.file(value.noteBody[index], fit: BoxFit.cover));
+        child: Image.file(value.noteBody[index][1], fit: BoxFit.cover));
   }
 }

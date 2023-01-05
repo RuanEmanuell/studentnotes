@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:alarme/models/colors.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,7 @@ import 'audiocontroller.dart';
 class Controller extends ChangeNotifier {
   String noteName = "";
 
-  List noteBody = [""];
+  List noteBody = [];
 
   String noteDate = "";
 
@@ -22,6 +23,8 @@ class Controller extends ChangeNotifier {
   late int index;
 
   var imageOption = ImageSource.gallery;
+
+  var colorNumber = 0;
 
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
@@ -57,58 +60,70 @@ class Controller extends ChangeNotifier {
 
   void newTextAction() {
     textNote++;
-    noteBody.add("");
+    noteBody.add(["text", ""]);
+    print(noteBody);
     notifyListeners();
   }
 
   void newCheckAction() {
-    noteBody.add([checkName, false]);
+    noteBody.add(["check", checkName, false]);
     notifyListeners();
   }
 
   void changeCheckAction(index) {
-    noteBody[index][1] = !noteBody[index][1];
+    noteBody[index][2] = !noteBody[index][2];
     notifyListeners();
   }
 
   void newDrawnAction(drawn) {
-    noteBody.add(drawn);
+    noteBody.add(["drawn", drawn]);
     notifyListeners();
   }
 
   void newImageAction(image) {
-    noteBody.add(image);
+    noteBody.add(["image", image]);
     print(noteBody);
     notifyListeners();
   }
 
   void newAudioAction(audio, duration, rawDuration, paused) {
-    noteBody.add([audio, duration, rawDuration, paused]);
+    noteBody.add(["audio", audio, duration, rawDuration, paused]);
     print(noteBody);
     notifyListeners();
   }
 
   void pauseAudioIndicator(index) {
-    noteBody[index][3] = !noteBody[index][3];
+    noteBody[index][4] = !noteBody[index][4];
     notifyListeners();
   }
 
   void resetAction() {
     noteName = "";
-    noteBody = [""];
+    noteBody = [
+      colors[0],
+      ["text", ""]
+    ];
     noteDate = "";
+    print(noteBody[0]);
+    notifyListeners();
+  }
+
+  void changeColor() {
+    colorNumber++;
+    noteBody[0] = colors[colorNumber];
+    print(noteBody[0]);
     notifyListeners();
   }
 
   void audioPauseHandler(index, context) {
-    if (noteBody[index][3] == false) {
-      Provider.of<AudioController>(context, listen: false).play(noteBody[index][0]);
+    if (noteBody[index][4] == false) {
+      Provider.of<AudioController>(context, listen: false).play(noteBody[index][1]);
     } else {
       Provider.of<AudioController>(context, listen: false).stopPlayer();
     }
 
-    Future.delayed(Duration(seconds: noteBody[index][2]), () {
-      if (noteBody[index][3] == true) {
+    Future.delayed(Duration(milliseconds: noteBody[index][3]), () {
+      if (noteBody[index][4] == true) {
         pauseAudioIndicator(index);
       }
     });

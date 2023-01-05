@@ -16,7 +16,7 @@ class ImageScreen extends StatelessWidget {
         child: Container(
             height: screenHeight,
             decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
-            child: Image.file(image)),
+            child: Image.file(image[1])),
       ),
       SafeArea(
           child: Container(

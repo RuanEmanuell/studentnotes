@@ -15,14 +15,14 @@ class TextNote extends StatelessWidget {
       child: TextFormField(
         keyboardType: TextInputType.multiline,
         maxLines: null,
-        controller: TextEditingController(text: value.noteBody[index]),
+        controller: TextEditingController(text: value.noteBody[index][1]),
         decoration: const InputDecoration(
             labelText: "Your note here...",
             labelStyle: TextStyle(color: Colors.brown),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: InputBorder.none),
         onChanged: (newValue) {
-          value.noteBody[index] = newValue;
+          value.noteBody[index][1] = newValue;
         },
       ),
     );
