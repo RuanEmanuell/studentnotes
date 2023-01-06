@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'controller/audiocontroller.dart';
-import 'controller/controller.dart';
+import 'controller/maincontroller.dart';
 import 'controller/paintcontroller.dart';
 import 'screens/home.dart';
 

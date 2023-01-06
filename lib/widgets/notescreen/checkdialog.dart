@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 
 class CheckDialog extends StatelessWidget {
-  var controller;
+  var value;
 
-  CheckDialog({required this.controller});
+  CheckDialog({required this.value});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
         title: const Text("Choose a name to your check box", style: TextStyle(color: Colors.brown)),
-        backgroundColor: Colors.yellow[200],
+        backgroundColor: value.noteBody[0][1],
         content: TextField(onChanged: (newValue) {
-          controller.checkName = newValue;
+          value.checkName = newValue;
         }),
         actions: [
           ElevatedButton(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 255, 238, 88),
+                  backgroundColor: value.noteBody[0][0],
                   shape:
                       const RoundedRectangleBorder(side: BorderSide(color: Colors.black, width: 2.5))),
               onPressed: () {
-                if (controller.checkName.isNotEmpty) {
-                  controller.newCheckAction();
+                if (value.checkName.isNotEmpty) {
+                  value.newCheckAction();
                   Navigator.pop(context);
                 }
               },

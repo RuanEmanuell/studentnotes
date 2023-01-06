@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'dart:typed_data';
 
 import '../controller/audiocontroller.dart';
-import "../controller/controller.dart";
+import '../controller/maincontroller.dart';
 
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
@@ -44,73 +44,74 @@ class AddScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       NoteTitle(value: value),
-                      Container(
-                        height: screenHeight / 1.6,
+                      Expanded(
                         child: ListView.builder(
-                          itemCount: value.noteBody.length,
-                          itemBuilder: (context, index) {
-                            return value.noteBody[index][0] == "text"
-                                ? Row(children: [
-                                    TextNote(value: value, index: index),
-                                    if (value.textNote > 1)
-                                      DeleteButton(onPressed: () {
-                                        FocusManager.instance.primaryFocus?.unfocus();
-                                        value.removeAction(index);
-                                      })
-                                  ])
-                                : value.noteBody[index][0] == "check"
-                                    ? Row(children: [
-                                        CheckNote(value: value, index: index),
-                                        SizedBox(width: screenWidth / 25),
+                            controller: value.controller,
+                            itemCount: value.noteBody.length,
+                            itemBuilder: (context, index) {
+                              return value.noteBody[index][0] == "text"
+                                  ? Row(children: [
+                                      TextNote(value: value, index: index),
+                                      if (value.textNote > 1)
                                         DeleteButton(onPressed: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
                                           value.removeAction(index);
-                                        }),
-                                      ])
-                                    : value.noteBody[index][0] == "drawn"
-                                        ? InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DrawnScreen(drawn: value.noteBody[index])));
-                                            },
-                                            child: Row(children: [
-                                              DrawnNote(value: value, index: index),
-                                              DeleteButton(onPressed: () {
-                                                FocusManager.instance.primaryFocus?.unfocus();
-                                                value.removeAction(index);
-                                              }),
-                                            ]))
-                                        : value.noteBody[index][0] == "image"
-                                            ? InkWell(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) => ImageScreen(
-                                                              image: value.noteBody[index])));
-                                                },
-                                                child: Row(children: [
-                                                  ImageNote(value: value, index: index),
-                                                  DeleteButton(onPressed: () {
-                                                    FocusManager.instance.primaryFocus?.unfocus();
-                                                    value.removeAction(index);
-                                                  }),
-                                                ]))
-                                            : value.noteBody[index][0] == "audio"
-                                                ? Row(children: [
-                                                    AudioNote(value: value, index: index),
+                                        })
+                                    ])
+                                  : value.noteBody[index][0] == "check"
+                                      ? Row(children: [
+                                          CheckNote(value: value, index: index),
+                                          SizedBox(width: screenWidth / 25),
+                                          DeleteButton(onPressed: () {
+                                            FocusManager.instance.primaryFocus?.unfocus();
+                                            value.removeAction(index);
+                                          }),
+                                        ])
+                                      : value.noteBody[index][0] == "drawn"
+                                          ? InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            DrawnScreen(drawn: value.noteBody[index])));
+                                              },
+                                              child: Row(children: [
+                                                DrawnNote(value: value, index: index),
+                                                DeleteButton(onPressed: () {
+                                                  FocusManager.instance.primaryFocus?.unfocus();
+                                                  value.removeAction(index);
+                                                }),
+                                              ]))
+                                          : value.noteBody[index][0] == "image"
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => ImageScreen(
+                                                                image: value.noteBody[index])));
+                                                  },
+                                                  child: Row(children: [
+                                                    ImageNote(value: value, index: index),
                                                     DeleteButton(onPressed: () {
                                                       FocusManager.instance.primaryFocus?.unfocus();
                                                       value.removeAction(index);
                                                     }),
-                                                  ])
-                                                : Container();
-                          },
+                                                  ]))
+                                              : value.noteBody[index][0] == "audio"
+                                                  ? Row(children: [
+                                                      AudioNote(value: value, index: index),
+                                                      DeleteButton(onPressed: () {
+                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                        value.removeAction(index);
+                                                      }),
+                                                    ])
+                                                  : Container();
+                            },
+                          ),
                         ),
-                      ),
+
                     ],
                   ),
                 ))),
@@ -139,7 +140,7 @@ class AddScreen extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return CheckDialog(controller: value);
+                                    return CheckDialog(value: value);
                                   },
                                 );
                               }),
@@ -167,7 +168,7 @@ class AddScreen extends StatelessWidget {
                                             ImageTypeBox(
                                               icon: Icons.camera_alt,
                                               text: "Camera",
-                                              color: Colors.yellow[200],
+                                              color: value.noteBody[0][1],
                                               onTap: () {
                                                 value.imageOption = ImageSource.camera;
                                                 value.getImage();
@@ -177,7 +178,7 @@ class AddScreen extends StatelessWidget {
                                             ImageTypeBox(
                                               icon: Icons.photo,
                                               text: "Gallery",
-                                              color: const Color.fromARGB(255, 255, 238, 88),
+                                              color: value.noteBody[0][0],
                                               onTap: () {
                                                 value.imageOption = ImageSource.gallery;
                                                 value.getImage();

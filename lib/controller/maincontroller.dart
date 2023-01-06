@@ -24,6 +24,8 @@ class Controller extends ChangeNotifier {
 
   var imageOption = ImageSource.gallery;
 
+  final ScrollController controller = ScrollController();
+
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     notes.add([noteName, noteBody, noteDate]);
@@ -44,7 +46,7 @@ class Controller extends ChangeNotifier {
   }
 
   void removeAction(index) {
-    if (noteBody[index] is String) {
+    if (noteBody[index][1] is String && noteBody[index].length==2) {
       textNote--;
     }
     noteBody.remove(noteBody[index]);
@@ -59,34 +61,37 @@ class Controller extends ChangeNotifier {
   void newTextAction() {
     textNote++;
     noteBody.add(["text", ""]);
-    print(noteBody);
+    scrollToNewNote();
     notifyListeners();
   }
 
   void newCheckAction() {
     noteBody.add(["check", checkName, false]);
+    scrollToNewNote();
     notifyListeners();
   }
 
   void changeCheckAction(index) {
     noteBody[index][2] = !noteBody[index][2];
+    scrollToNewNote();
     notifyListeners();
   }
 
   void newDrawnAction(drawn) {
     noteBody.add(["drawn", drawn]);
+    scrollToNewNote();
     notifyListeners();
   }
 
   void newImageAction(image) {
     noteBody.add(["image", image]);
-    print(noteBody);
+    scrollToNewNote();
     notifyListeners();
   }
 
   void newAudioAction(audio, duration, rawDuration, paused) {
     noteBody.add(["audio", audio, duration, rawDuration, paused]);
-    print(noteBody);
+    scrollToNewNote();
     notifyListeners();
   }
 
@@ -137,5 +142,13 @@ class Controller extends ChangeNotifier {
       var imageFile = File(pickedFile.path);
       newImageAction(imageFile);
     }
+  }
+
+  void scrollToNewNote() {
+    controller.animateTo(
+      controller.position.maxScrollExtent*2,
+      curve: Curves.easeOut,
+      duration: const Duration(milliseconds: 750),
+    );
   }
 }

@@ -4,7 +4,7 @@ var colors = [
   [Colors.yellow, Colors.yellow[200]],
   [Colors.lime, Colors.lime[200]],
   [Colors.green, Colors.green[200]],
-  [Colors.blue, Colors.blue[200]],
+  [Colors.blue, Colors.blue[300]],
   [Colors.lightBlue, Colors.lightBlue[200]],
   [Colors.purple[300], Colors.purple[200]],
   [Colors.pink[300], Colors.pink[200]],

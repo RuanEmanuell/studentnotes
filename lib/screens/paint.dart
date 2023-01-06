@@ -6,7 +6,7 @@ import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 
 import 'package:provider/provider.dart';
 
-import '../controller/controller.dart';
+import '../controller/maincontroller.dart';
 import '../controller/paintcontroller.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/bigbutton.dart';

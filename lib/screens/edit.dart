@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'dart:typed_data';
 
 import '../controller/audiocontroller.dart';
-import "../controller/controller.dart";
+import '../controller/maincontroller.dart';
 
 import '../models/colors.dart';
 import '../widgets/general/appbar.dart';
@@ -49,7 +49,7 @@ class EditScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       NoteTitle(value: value),
-                      Container(
+                      SizedBox(
                         height: screenHeight / 1.6,
                         child: ListView.builder(
                           itemCount: value.noteBody.length,
@@ -144,7 +144,7 @@ class EditScreen extends StatelessWidget {
                                 showDialog(
                                   context: context,
                                   builder: (context) {
-                                    return CheckDialog(controller: value);
+                                    return CheckDialog(value: value);
                                   },
                                 );
                               }),
@@ -172,7 +172,7 @@ class EditScreen extends StatelessWidget {
                                             ImageTypeBox(
                                               icon: Icons.camera_alt,
                                               text: "Camera",
-                                              color: Colors.yellow[200],
+                                              color: value.noteBody[0][1],
                                               onTap: () {
                                                 value.imageOption = ImageSource.camera;
                                                 value.getImage();
@@ -182,7 +182,7 @@ class EditScreen extends StatelessWidget {
                                             ImageTypeBox(
                                               icon: Icons.photo,
                                               text: "Gallery",
-                                              color: const Color.fromARGB(255, 255, 238, 88),
+                                              color: value.noteBody[0][0],
                                               onTap: () {
                                                 value.imageOption = ImageSource.gallery;
                                                 value.getImage();
@@ -268,7 +268,8 @@ class EditScreen extends StatelessWidget {
                               onPressed: () {
                                 showModalBottomSheet(
                                   context: context,
-                                  builder: (context) => SizedBox(
+                                  builder: (context) => Container(
+                                      color: value.noteBody[0][1],
                                       height: screenHeight / 5,
                                       child: Wrap(alignment: WrapAlignment.center, children: [
                                         for (var i = 0; i < colors.length; i++)
@@ -279,8 +280,8 @@ class EditScreen extends StatelessWidget {
                                             },
                                             child: Container(
                                                 margin: EdgeInsets.all(screenWidth / 30),
-                                                height: screenHeight / 13,
-                                                width: screenWidth / 8,
+                                                height: screenHeight / 15.5,
+                                                width: screenWidth / 9,
                                                 decoration: BoxDecoration(
                                                     color: colors[i][0],
                                                     border: Border.all(color: Colors.black, width: 2),
