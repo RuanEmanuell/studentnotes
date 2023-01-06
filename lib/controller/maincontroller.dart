@@ -46,7 +46,7 @@ class Controller extends ChangeNotifier {
   }
 
   void removeAction(index) {
-    if (noteBody[index][1] is String && noteBody[index].length==2) {
+    if (noteBody[index][1] is String && noteBody[index].length == 2) {
       textNote--;
     }
     noteBody.remove(noteBody[index]);
@@ -146,7 +146,7 @@ class Controller extends ChangeNotifier {
 
   void scrollToNewNote() {
     controller.animateTo(
-      controller.position.maxScrollExtent*2,
+      controller.position.maxScrollExtent * 2,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 750),
     );

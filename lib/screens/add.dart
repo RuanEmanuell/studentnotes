@@ -46,72 +46,72 @@ class AddScreen extends StatelessWidget {
                       NoteTitle(value: value),
                       Expanded(
                         child: ListView.builder(
-                            controller: value.controller,
-                            itemCount: value.noteBody.length,
-                            itemBuilder: (context, index) {
-                              return value.noteBody[index][0] == "text"
-                                  ? Row(children: [
-                                      TextNote(value: value, index: index),
-                                      if (value.textNote > 1)
+                          controller: value.controller,
+                          itemCount: value.noteBody.length,
+                          itemBuilder: (context, index) {
+                            return value.noteBody[index][0] == "text"
+                                ? Row(children: [
+                                    TextNote(value: value, index: index),
+                                    if (value.textNote > 1)
+                                      DeleteButton(onPressed: () {
+                                        FocusManager.instance.primaryFocus?.unfocus();
+                                        value.removeAction(index);
+                                      })
+                                  ])
+                                : value.noteBody[index][0] == "check"
+                                    ? Row(children: [
+                                        CheckNote(value: value, index: index),
+                                        SizedBox(width: screenWidth / 25),
                                         DeleteButton(onPressed: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
                                           value.removeAction(index);
-                                        })
-                                    ])
-                                  : value.noteBody[index][0] == "check"
-                                      ? Row(children: [
-                                          CheckNote(value: value, index: index),
-                                          SizedBox(width: screenWidth / 25),
-                                          DeleteButton(onPressed: () {
-                                            FocusManager.instance.primaryFocus?.unfocus();
-                                            value.removeAction(index);
-                                          }),
-                                        ])
-                                      : value.noteBody[index][0] == "drawn"
-                                          ? InkWell(
-                                              onTap: () {
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            DrawnScreen(drawn: value.noteBody[index])));
-                                              },
-                                              child: Row(children: [
-                                                DrawnNote(value: value, index: index),
-                                                DeleteButton(onPressed: () {
-                                                  FocusManager.instance.primaryFocus?.unfocus();
-                                                  value.removeAction(index);
-                                                }),
-                                              ]))
-                                          : value.noteBody[index][0] == "image"
-                                              ? InkWell(
-                                                  onTap: () {
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => ImageScreen(
-                                                                image: value.noteBody[index])));
-                                                  },
-                                                  child: Row(children: [
-                                                    ImageNote(value: value, index: index),
+                                        }),
+                                      ])
+                                    : value.noteBody[index][0] == "drawn"
+                                        ? InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) => DrawnScreen(
+                                                          drawn: value.noteBody[index], value: value)));
+                                            },
+                                            child: Row(children: [
+                                              DrawnNote(value: value, index: index),
+                                              DeleteButton(onPressed: () {
+                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                value.removeAction(index);
+                                              }),
+                                            ]))
+                                        : value.noteBody[index][0] == "image"
+                                            ? InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => ImageScreen(
+                                                              image: value.noteBody[index],
+                                                              value: value)));
+                                                },
+                                                child: Row(children: [
+                                                  ImageNote(value: value, index: index),
+                                                  DeleteButton(onPressed: () {
+                                                    FocusManager.instance.primaryFocus?.unfocus();
+                                                    value.removeAction(index);
+                                                  }),
+                                                ]))
+                                            : value.noteBody[index][0] == "audio"
+                                                ? Row(children: [
+                                                    AudioNote(value: value, index: index),
                                                     DeleteButton(onPressed: () {
                                                       FocusManager.instance.primaryFocus?.unfocus();
                                                       value.removeAction(index);
                                                     }),
-                                                  ]))
-                                              : value.noteBody[index][0] == "audio"
-                                                  ? Row(children: [
-                                                      AudioNote(value: value, index: index),
-                                                      DeleteButton(onPressed: () {
-                                                        FocusManager.instance.primaryFocus?.unfocus();
-                                                        value.removeAction(index);
-                                                      }),
-                                                    ])
-                                                  : Container();
-                            },
-                          ),
+                                                  ])
+                                                : Container();
+                          },
                         ),
-
+                      ),
                     ],
                   ),
                 ))),

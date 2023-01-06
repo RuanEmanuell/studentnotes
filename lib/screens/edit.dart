@@ -40,7 +40,6 @@ class EditScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Consumer<Controller>(
@@ -49,9 +48,9 @@ class EditScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       NoteTitle(value: value),
-                      SizedBox(
-                        height: screenHeight / 1.6,
+                      Expanded(
                         child: ListView.builder(
+                          controller: value.controller,
                           itemCount: value.noteBody.length,
                           itemBuilder: (context, index) {
                             return value.noteBody[index][0] == "text"
@@ -78,8 +77,8 @@ class EditScreen extends StatelessWidget {
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DrawnScreen(drawn: value.noteBody[index])));
+                                                      builder: (context) => DrawnScreen(
+                                                          drawn: value.noteBody[index], value: value)));
                                             },
                                             child: Row(children: [
                                               DrawnNote(value: value, index: index),
@@ -95,7 +94,8 @@ class EditScreen extends StatelessWidget {
                                                       context,
                                                       MaterialPageRoute(
                                                           builder: (context) => ImageScreen(
-                                                              image: value.noteBody[index])));
+                                                              image: value.noteBody[index],
+                                                              value: value)));
                                                 },
                                                 child: Row(children: [
                                                   ImageNote(value: value, index: index),

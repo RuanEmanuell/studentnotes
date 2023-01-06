@@ -4,8 +4,9 @@ import '../widgets/general/bigbutton.dart';
 
 class DrawnScreen extends StatelessWidget {
   var drawn;
+  var value;
 
-  DrawnScreen({required this.drawn});
+  DrawnScreen({required this.drawn, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class DrawnScreen extends StatelessWidget {
           child: Container(
         margin: const EdgeInsets.only(left: 10, top: 10),
         child: BigIconButton(
-            color: const Color.fromARGB(255, 255, 238, 88),
+            color: value.noteBody[0][0],
             icon: Icons.close,
             onPressed: () {
               Navigator.pop(context);
