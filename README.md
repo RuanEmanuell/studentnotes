@@ -1,3 +1,3 @@
 ## StudentNotes
 
-Still under development.
+Still under development (final phase).
