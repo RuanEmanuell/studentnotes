@@ -20,11 +20,9 @@ class Controller extends ChangeNotifier {
 
   int textNote = 1;
 
-  late int index;
-
   var imageOption = ImageSource.gallery;
 
-  final ScrollController controller = ScrollController();
+  late ScrollController scrollController;
 
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
@@ -46,15 +44,25 @@ class Controller extends ChangeNotifier {
   }
 
   void removeAction(index) {
+    notes.remove(notes[index]);
+    notifyListeners();
+  }
+
+  void resetAction() {
+    noteName = "";
+    noteBody = [
+      colors[0],
+      ["text", ""]
+    ];
+    noteDate = "";
+    notifyListeners();
+  }
+
+  void removeSingleNoteAction(index) {
     if (noteBody[index][1] is String && noteBody[index].length == 2) {
       textNote--;
     }
     noteBody.remove(noteBody[index]);
-    notifyListeners();
-  }
-
-  void removeFullNoteAction(index) {
-    notes.remove(notes[index]);
     notifyListeners();
   }
 
@@ -73,7 +81,6 @@ class Controller extends ChangeNotifier {
 
   void changeCheckAction(index) {
     noteBody[index][2] = !noteBody[index][2];
-    scrollToNewNote();
     notifyListeners();
   }
 
@@ -97,17 +104,6 @@ class Controller extends ChangeNotifier {
 
   void pauseAudioIndicator(index) {
     noteBody[index][4] = !noteBody[index][4];
-    notifyListeners();
-  }
-
-  void resetAction() {
-    noteName = "";
-    noteBody = [
-      colors[0],
-      ["text", ""]
-    ];
-    noteDate = "";
-    print(noteBody[0]);
     notifyListeners();
   }
 
@@ -145,8 +141,8 @@ class Controller extends ChangeNotifier {
   }
 
   void scrollToNewNote() {
-    controller.animateTo(
-      controller.position.maxScrollExtent * 2,
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent * 3,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 750),
     );

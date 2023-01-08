@@ -1,16 +1,11 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
+import 'package:alarme/models/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'dart:typed_data';
-
 import '../controller/audiocontroller.dart';
 import '../controller/maincontroller.dart';
 
-import '../models/colors.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
@@ -31,15 +26,17 @@ import "home.dart";
 import 'drawn.dart';
 import "image.dart";
 
-class EditScreen extends StatelessWidget {
+class NoteScreen extends StatelessWidget {
   var index;
 
-  EditScreen({required this.index});
+  NoteScreen({this.index});
 
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
+    final ScrollController scrollController = ScrollController();
+    Provider.of<Controller>(context, listen: false).scrollController = scrollController;
     return Scaffold(
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
         body: Consumer<Controller>(
@@ -50,7 +47,7 @@ class EditScreen extends StatelessWidget {
                       NoteTitle(value: value),
                       Expanded(
                         child: ListView.builder(
-                          controller: value.controller,
+                          controller: scrollController,
                           itemCount: value.noteBody.length,
                           itemBuilder: (context, index) {
                             return value.noteBody[index][0] == "text"
@@ -59,7 +56,7 @@ class EditScreen extends StatelessWidget {
                                     if (value.textNote > 1)
                                       DeleteButton(onPressed: () {
                                         FocusManager.instance.primaryFocus?.unfocus();
-                                        value.removeAction(index);
+                                        value.removeSingleNoteAction(index);
                                       })
                                   ])
                                 : value.noteBody[index][0] == "check"
@@ -68,7 +65,7 @@ class EditScreen extends StatelessWidget {
                                         SizedBox(width: screenWidth / 25),
                                         DeleteButton(onPressed: () {
                                           FocusManager.instance.primaryFocus?.unfocus();
-                                          value.removeAction(index);
+                                          value.removeSingleNoteAction(index);
                                         }),
                                       ])
                                     : value.noteBody[index][0] == "drawn"
@@ -84,7 +81,7 @@ class EditScreen extends StatelessWidget {
                                               DrawnNote(value: value, index: index),
                                               DeleteButton(onPressed: () {
                                                 FocusManager.instance.primaryFocus?.unfocus();
-                                                value.removeAction(index);
+                                                value.removeSingleNoteAction(index);
                                               }),
                                             ]))
                                         : value.noteBody[index][0] == "image"
@@ -101,7 +98,7 @@ class EditScreen extends StatelessWidget {
                                                   ImageNote(value: value, index: index),
                                                   DeleteButton(onPressed: () {
                                                     FocusManager.instance.primaryFocus?.unfocus();
-                                                    value.removeAction(index);
+                                                    value.removeSingleNoteAction(index);
                                                   }),
                                                 ]))
                                             : value.noteBody[index][0] == "audio"
@@ -109,7 +106,7 @@ class EditScreen extends StatelessWidget {
                                                     AudioNote(value: value, index: index),
                                                     DeleteButton(onPressed: () {
                                                       FocusManager.instance.primaryFocus?.unfocus();
-                                                      value.removeAction(index);
+                                                      value.removeSingleNoteAction(index);
                                                     }),
                                                   ])
                                                 : Container();
@@ -296,7 +293,11 @@ class EditScreen extends StatelessWidget {
                           color: value.noteBody[0][0],
                           icon: Icons.check,
                           onPressed: () {
-                            value.editAction(index);
+                            if (index == null) {
+                              value.createAction();
+                            } else {
+                              value.editAction(index);
+                            }
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

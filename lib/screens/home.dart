@@ -5,8 +5,7 @@ import '../controller/maincontroller.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
 import '../widgets/homescreen/ballontext.dart';
-import 'add.dart';
-import 'edit.dart';
+import 'note.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -40,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => EditScreen(index: index)));
+                                              builder: (context) => NoteScreen(index: index)));
                                     },
                                     child: Container(
                                         width: screenWidth / 2,
@@ -64,7 +63,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 10),
                                   DeleteButton(onPressed: () {
-                                    value.removeFullNoteAction(index);
+                                    value.removeAction(index);
                                   })
                                 ]),
                               );
@@ -82,7 +81,7 @@ class HomeScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddScreen(),
+                    builder: (context) => NoteScreen(),
                   ));
             }));
   }

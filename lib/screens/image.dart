@@ -17,14 +17,14 @@ class ImageScreen extends StatelessWidget {
           SafeArea(
             child: Center(
               child: Container(
-                  margin: EdgeInsets.all(10),
+                  margin: const EdgeInsets.all(10),
                   decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
                   child: Image.file(image[1])),
             ),
           ),
           SafeArea(
             child: Container(
-              margin: EdgeInsets.only(left: 10, top: 3),
+              margin: const EdgeInsets.only(left: 10, top: 3),
               child: BigIconButton(
                   color: value.noteBody[0][0],
                   icon: Icons.close,
