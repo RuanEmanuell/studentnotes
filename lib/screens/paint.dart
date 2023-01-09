@@ -21,7 +21,7 @@ class PaintScreen extends StatelessWidget {
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
         backgroundColor: controller.noteBody[0][0],
-        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: NoteAppBar()),
         body: Consumer<PaintController>(
             builder: (context, value, child) => (Container(
                   margin: const EdgeInsets.all(10),
@@ -98,6 +98,7 @@ class PaintScreen extends StatelessWidget {
                       ])),
                       BigIconButton(
                         color: controller.noteBody[0][0],
+                        iconColor: Colors.black,
                         icon: Icons.save,
                         onPressed: () async {
                           final sign = value.sign.currentState;

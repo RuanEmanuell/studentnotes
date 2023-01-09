@@ -27,6 +27,7 @@ class ImageScreen extends StatelessWidget {
               margin: const EdgeInsets.only(left: 10, top: 3),
               child: BigIconButton(
                   color: value.noteBody[0][0],
+                  iconColor: Colors.black,
                   icon: Icons.close,
                   onPressed: () {
                     Navigator.pop(context);

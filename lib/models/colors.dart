@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 var colors = [
-  [Colors.yellow, Colors.yellow[200]],
+  [const Color.fromARGB(255, 255, 216, 41), Colors.yellow[300]],
   [Colors.lime, Colors.lime[200]],
   [Colors.green, Colors.green[200]],
   [Colors.blue, Colors.blue[300]],

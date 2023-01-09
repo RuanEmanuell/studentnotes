@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/maincontroller.dart';
+import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
 import '../widgets/homescreen/ballontext.dart';
@@ -14,7 +15,8 @@ class HomeScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 255, 238, 88),
+        backgroundColor: const Color.fromARGB(255, 248, 248, 248),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: HomeAppBar()),
         body: Consumer<Controller>(
           builder: (context, value, child) => value.notes.isEmpty
               ? const Center(child: Text("Your notes will be here..."))
@@ -74,7 +76,8 @@ class HomeScreen extends StatelessWidget {
                 ),
         ),
         floatingActionButton: BigIconButton(
-            color: Colors.yellow[200],
+            color: Colors.black,
+            iconColor: Colors.white,
             icon: Icons.add,
             onPressed: () {
               controller.resetAction();

@@ -38,7 +38,7 @@ class NoteScreen extends StatelessWidget {
     final ScrollController scrollController = ScrollController();
     Provider.of<Controller>(context, listen: false).scrollController = scrollController;
     return Scaffold(
-        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: CustomAppBar()),
+        appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: NoteAppBar()),
         body: Consumer<Controller>(
             builder: ((context, value, child) => Container(
                   color: value.noteBody[0][0],
@@ -292,6 +292,7 @@ class NoteScreen extends StatelessWidget {
                       BigIconButton(
                           color: value.noteBody[0][0],
                           icon: Icons.check,
+                          iconColor: Colors.black,
                           onPressed: () {
                             if (index == null) {
                               value.createAction();
