@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     var controller = Provider.of<Controller>(context, listen: false);
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+        backgroundColor: const Color.fromARGB(255, 250, 250, 250),
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: HomeAppBar()),
         body: Consumer<Controller>(
           builder: (context, value, child) => value.notes.isEmpty

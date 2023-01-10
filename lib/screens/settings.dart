@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 
 import '../widgets/general/appbar.dart';
+import '../widgets/settingsscreen/option.dart';
+import '../widgets/settingsscreen/settingsbox.dart';
 
 class SettingsScreen extends StatelessWidget {
   @override
@@ -8,75 +10,30 @@ class SettingsScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 245, 245, 245),
+      backgroundColor: const Color.fromARGB(255, 250, 250, 250),
       appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: SettingsAppBar()),
       body: Column(children: [
-        Container(
-          margin: EdgeInsets.only(left: screenWidth / 20),
-          child: InkWell(
-              onTap: () {},
-              child: Row(children: [
-                Icon(Icons.language, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
-                SizedBox(width: screenWidth / 20),
-                Text("Language", style: TextStyle(fontSize: screenWidth / 22)),
-                SizedBox(height: screenHeight / 10)
-              ])),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: screenWidth / 20),
-          child: InkWell(
-              onTap: () {},
-              child: Row(children: [
-                Icon(Icons.palette, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
-                SizedBox(width: screenWidth / 20),
-                Text("Appearance", style: TextStyle(fontSize: screenWidth / 22)),
-                SizedBox(height: screenHeight / 10)
-              ])),
-        ),
-        Container(
-          margin: EdgeInsets.only(left: screenWidth / 20),
-          child: InkWell(
-              onTap: () {},
-              child: Row(children: [
-                Icon(Icons.notifications,
-                    color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
-                SizedBox(width: screenWidth / 20),
-                Text("Notifications", style: TextStyle(fontSize: screenWidth / 22)),
-                SizedBox(height: screenHeight / 10)
-              ])),
-        ),
-        Container(
-            margin: EdgeInsets.only(left: screenWidth / 20),
-            child: InkWell(
-                onTap: () {},
-                child: Row(children: [
-                  Icon(Icons.remove_circle,
-                      color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
-                  SizedBox(width: screenWidth / 20),
-                  Text("Remove Ads", style: TextStyle(fontSize: screenWidth / 22)),
-                  SizedBox(width: screenWidth / 40),
-                  Container(
-                      width: screenWidth / 10,
-                      margin: EdgeInsets.all(screenHeight / 100),
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 255, 216, 41),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: const Center(
-                        child: Text("VIP",
-                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
-                      )),
-                  SizedBox(height: screenHeight / 10)
-                ]))),
+        SettingsOption(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => SettingsBox(),
+              );
+            },
+            icon: Icons.language,
+            text: "Language"),
+        SettingsOption(onTap: () {}, icon: Icons.palette, text: "Appearance"),
+        SettingsOption(onTap: () {}, icon: Icons.notifications, text: "Notifications"),
+        SettingsOptionVip(onTap: () {}, icon: Icons.remove_circle, text: "Remove Ads"),
       ]),
-      bottomNavigationBar: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              child: Text("Version 1.0.0",
-                  style: TextStyle(fontSize: screenWidth / 22, color: const Color.fromARGB(255, 88, 88, 88)))),
-        ],
-      ),
+      bottomNavigationBar: Container(
+          height: screenHeight / 15,
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Center(
+            child: Text("Version 1.0.0",
+                style:
+                    TextStyle(fontSize: screenWidth / 22, color: const Color.fromARGB(255, 88, 88, 88))),
+          )),
     );
   }
 }
