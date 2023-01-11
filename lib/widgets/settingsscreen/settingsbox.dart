@@ -1,14 +1,10 @@
 import "package:flutter/material.dart";
 
-class SettingsBox extends StatefulWidget {
-  @override
-  State<SettingsBox> createState() => _SettingsBoxState();
-}
+class SettingsBox extends StatelessWidget {
+  var settings;
+  var selectedOption;
 
-class _SettingsBoxState extends State<SettingsBox> {
-  var languages = ["English", "Portuguese"];
-
-  var language = 0;
+  SettingsBox({required this.settings, required this.selectedOption});
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +21,16 @@ class _SettingsBoxState extends State<SettingsBox> {
               child: Text("Language",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth / 20)),
             ),
-            for (var i = 0; i < languages.length; i++)
+            for (var i = 0; i < settings.length; i++)
               ListTile(
-                  title: Text(languages[i]),
+                  title: Text(settings[i]),
                   leading: Radio(
                       value: i,
-                      groupValue: language,
+                      groupValue: settings,
                       activeColor: Colors.blue,
                       onChanged: ((value) {
-                        setState(() {
-                          language = languages.indexOf(languages[i]);
-                        });
+                        selectedOption = i;
+                        print(selectedOption);
                       }))),
             InkWell(
               onTap: () {

@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
 class SettingsOption extends StatelessWidget {
-  var onTap;
+  var dialog;
   var icon;
   var text;
 
-  SettingsOption({required this.onTap, required this.icon, required this.text});
+  SettingsOption({required this.dialog, required this.icon, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,12 @@ class SettingsOption extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: screenWidth / 20),
       child: InkWell(
-          onTap: onTap,
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) => dialog,
+            );
+          },
           child: Row(children: [
             Icon(icon, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
             SizedBox(width: screenWidth / 20),
@@ -39,7 +44,7 @@ class SettingsOptionVip extends StatelessWidget {
     return Container(
         margin: EdgeInsets.only(left: screenWidth / 20),
         child: InkWell(
-            onTap: onTap,
+            onTap: () {},
             child: Row(children: [
               Icon(icon, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
               SizedBox(width: screenWidth / 20),

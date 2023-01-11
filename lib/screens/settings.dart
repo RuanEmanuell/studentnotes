@@ -5,6 +5,15 @@ import '../widgets/settingsscreen/option.dart';
 import '../widgets/settingsscreen/settingsbox.dart';
 
 class SettingsScreen extends StatelessWidget {
+  var languages = ["Portuguese", "English"];
+  var language = 0;
+
+  var modes = ["Light Mode", "Dark Mode"];
+  var mode = 0;
+
+  var notifications = ["On", "Off"];
+  var notification = 0;
+
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
@@ -14,16 +23,17 @@ class SettingsScreen extends StatelessWidget {
       appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: SettingsAppBar()),
       body: Column(children: [
         SettingsOption(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => SettingsBox(),
-              );
-            },
+            dialog: SettingsBox(settings: languages, selectedOption: language),
             icon: Icons.language,
             text: "Language"),
-        SettingsOption(onTap: () {}, icon: Icons.palette, text: "Appearance"),
-        SettingsOption(onTap: () {}, icon: Icons.notifications, text: "Notifications"),
+        SettingsOption(
+            dialog: SettingsBox(settings: modes, selectedOption: mode),
+            icon: Icons.palette,
+            text: "Appearance"),
+        SettingsOption(
+            dialog: SettingsBox(settings: notifications, selectedOption: notification),
+            icon: Icons.notifications,
+            text: "Notifications"),
         SettingsOptionVip(onTap: () {}, icon: Icons.remove_circle, text: "Remove Ads"),
       ]),
       bottomNavigationBar: Container(
