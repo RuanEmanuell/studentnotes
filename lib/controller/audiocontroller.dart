@@ -6,7 +6,7 @@ import 'package:flutter_sound_platform_interface/flutter_sound_recorder_platform
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-import 'maincontroller.dart';
+import 'notecontroller.dart';
 
 class AudioController extends ChangeNotifier {
   int audio = 0;
@@ -178,7 +178,7 @@ class AudioController extends ChangeNotifier {
       } else {
         stopRecorder();
         Navigator.pop(context);
-        Provider.of<Controller>(context, listen: false)
+        Provider.of<NoteController>(context, listen: false)
             .newAudioAction(mPath, audioDuration, rawDuration, isPlaying);
         restartDuration();
       }

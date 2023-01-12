@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:alarme/models/colors.dart';
+import 'package:alarme/models/notecolors.dart';
 import "package:flutter/material.dart";
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import 'audiocontroller.dart';
 
-class Controller extends ChangeNotifier {
+class NoteController extends ChangeNotifier {
   String noteName = "";
 
   List noteBody = [];
@@ -51,7 +51,7 @@ class Controller extends ChangeNotifier {
   void resetAction() {
     noteName = "";
     noteBody = [
-      colors[0],
+      noteColors[0],
       ["text", ""]
     ];
     noteDate = "";
@@ -108,7 +108,7 @@ class Controller extends ChangeNotifier {
   }
 
   void changeColor(colorNumber) {
-    noteBody[0] = colors[colorNumber];
+    noteBody[0] = noteColors[colorNumber];
     notifyListeners();
   }
 

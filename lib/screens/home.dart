@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../controller/maincontroller.dart';
+import '../controller/notecontroller.dart';
+import '../models/appcolors.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
@@ -13,13 +14,14 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
-    var controller = Provider.of<Controller>(context, listen: false);
+    var noteController = Provider.of<NoteController>(context, listen: false);
     return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 250, 250, 250),
+        backgroundColor: appColors[0][1],
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: HomeAppBar()),
-        body: Consumer<Controller>(
+        body: Consumer<NoteController>(
           builder: (context, value, child) => value.notes.isEmpty
-              ? const Center(child: Text("Your notes will be here..."))
+              ? Center(
+                  child: Text("Your notes will be here...", style: TextStyle(color: appColors[0][2])))
               : SingleChildScrollView(
                   child: Column(
                     children: [
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                         child: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                            itemCount: controller.notes.length,
+                            itemCount: noteController.notes.length,
                             itemBuilder: (context, index) {
                               return Container(
                                 margin: const EdgeInsets.all(20),
@@ -76,11 +78,11 @@ class HomeScreen extends StatelessWidget {
                 ),
         ),
         floatingActionButton: BigIconButton(
-            color: Colors.black,
-            iconColor: Colors.white,
+            color: appColors[0][2],
+            iconColor: appColors[0][0],
             icon: Icons.add,
             onPressed: () {
-              controller.resetAction();
+              noteController.resetAction();
               Navigator.push(
                   context,
                   MaterialPageRoute(

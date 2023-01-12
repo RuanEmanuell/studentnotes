@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import '../../models/appcolors.dart';
+
 class SettingsOption extends StatelessWidget {
   var dialog;
   var icon;
@@ -21,9 +23,9 @@ class SettingsOption extends StatelessWidget {
             );
           },
           child: Row(children: [
-            Icon(icon, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
+            Icon(icon, color: appColors[0][2], size: screenWidth / 15),
             SizedBox(width: screenWidth / 20),
-            Text(text, style: TextStyle(fontSize: screenWidth / 22)),
+            Text(text, style: TextStyle(color: appColors[0][2], fontSize: screenWidth / 22)),
             SizedBox(height: screenHeight / 10)
           ])),
     );
@@ -46,16 +48,15 @@ class SettingsOptionVip extends StatelessWidget {
         child: InkWell(
             onTap: () {},
             child: Row(children: [
-              Icon(icon, color: const Color.fromARGB(255, 88, 88, 88), size: screenWidth / 15),
+              Icon(icon, color: appColors[0][2], size: screenWidth / 15),
               SizedBox(width: screenWidth / 20),
-              Text(text, style: TextStyle(fontSize: screenWidth / 22)),
+              Text(text, style: TextStyle(color: appColors[0][2], fontSize: screenWidth / 22)),
               SizedBox(width: screenWidth / 40),
               Container(
                   width: screenWidth / 10,
                   margin: EdgeInsets.all(screenHeight / 100),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 255, 216, 41),
-                      borderRadius: BorderRadius.circular(10)),
+                  decoration:
+                      BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(10)),
                   child: const Center(
                     child:
                         Text("VIP", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),

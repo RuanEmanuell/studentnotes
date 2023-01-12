@@ -1,10 +1,10 @@
-import 'package:alarme/models/colors.dart';
+import 'package:alarme/models/notecolors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../controller/audiocontroller.dart';
-import '../controller/maincontroller.dart';
+import '../controller/notecontroller.dart';
 
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
@@ -36,10 +36,10 @@ class NoteScreen extends StatelessWidget {
     var screenHeight = MediaQuery.of(context).size.height;
     var screenWidth = MediaQuery.of(context).size.width;
     final ScrollController scrollController = ScrollController();
-    Provider.of<Controller>(context, listen: false).scrollController = scrollController;
+    Provider.of<NoteController>(context, listen: false).scrollController = scrollController;
     return Scaffold(
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: NoteAppBar()),
-        body: Consumer<Controller>(
+        body: Consumer<NoteController>(
             builder: ((context, value, child) => Container(
                   color: value.noteBody[0][0],
                   child: Column(
@@ -116,7 +116,7 @@ class NoteScreen extends StatelessWidget {
                     ],
                   ),
                 ))),
-        bottomNavigationBar: Consumer<Controller>(
+        bottomNavigationBar: Consumer<NoteController>(
             builder: ((context, value, child) => Container(
                   color: value.noteBody[0][1],
                   padding: MediaQuery.of(context).viewInsets,
@@ -269,7 +269,7 @@ class NoteScreen extends StatelessWidget {
                                       color: value.noteBody[0][1],
                                       height: screenHeight / 5,
                                       child: Wrap(alignment: WrapAlignment.center, children: [
-                                        for (var i = 0; i < colors.length; i++)
+                                        for (var i = 0; i < noteColors.length; i++)
                                           InkWell(
                                             onTap: () {
                                               value.changeColor(i);
@@ -280,7 +280,7 @@ class NoteScreen extends StatelessWidget {
                                                 height: screenHeight / 15.5,
                                                 width: screenWidth / 9,
                                                 decoration: BoxDecoration(
-                                                    color: colors[i][0],
+                                                    color: noteColors[i][0],
                                                     border: Border.all(color: Colors.black, width: 2),
                                                     borderRadius: BorderRadius.circular(100))),
                                           )

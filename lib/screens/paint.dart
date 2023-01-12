@@ -6,7 +6,7 @@ import 'package:flutter_signature_pad/flutter_signature_pad.dart';
 
 import 'package:provider/provider.dart';
 
-import '../controller/maincontroller.dart';
+import '../controller/notecontroller.dart';
 import '../controller/paintcontroller.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/bigbutton.dart';
@@ -18,7 +18,7 @@ class PaintScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var screenHeight = MediaQuery.of(context).size.height;
-    var controller = Provider.of<Controller>(context, listen: false);
+    var controller = Provider.of<NoteController>(context, listen: false);
     return Scaffold(
         backgroundColor: controller.noteBody[0][0],
         appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: NoteAppBar()),
