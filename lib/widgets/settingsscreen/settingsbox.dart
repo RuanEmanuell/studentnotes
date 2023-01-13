@@ -35,12 +35,12 @@ class SettingsBox extends StatelessWidget {
                   ListTile(
                       title: Text(settings[i], style: TextStyle(color: appColors[0][2])),
                       leading: Radio(
-                          value: value.selectedOption,
-                          groupValue: settings,
+                          value: i,
+                          groupValue: value.mode,
                           activeColor: Colors.blue,
                           onChanged: ((newValue) {
                             setState(() {
-                              value.changeOption(i);
+                              value.changeMode(i);
                             });
                           }))),
                 InkWell(
