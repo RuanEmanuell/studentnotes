@@ -10,7 +10,6 @@ class InterfaceController extends ChangeNotifier {
   var notifications = ["On", "Off"];
   var notification = 0;
 
-
   void changeMode(i) {
     mode = i;
     notifyListeners();
