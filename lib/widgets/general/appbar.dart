@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/notecontroller.dart';
 import '../../models/appcolors.dart';
+import '../../models/applanguages.dart';
 import '../../screens/settings.dart';
 
 class NoteAppBar extends StatelessWidget {
@@ -31,16 +32,17 @@ class HomeAppBar extends StatelessWidget {
           backgroundColor: appColors[value.mode][0],
           elevation: 0,
           centerTitle: true,
-          title: Text("StudentNotes", style: TextStyle(color: appColors[value.mode][2])),
+          title: Text(languages[value.languages[value.language]]["studentnotes"],
+              style: TextStyle(color: appColors[value.mode][2])),
           leading: InkWell(
               onTap: () {},
               child: Container(
                   margin: EdgeInsets.all(screenHeight / 100),
                   decoration:
                       BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(10)),
-                  child: const Center(
-                    child:
-                        Text("VIP", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  child: Center(
+                    child: Text(languages[value.languages[value.language]]["vip"],
+                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                   ))),
           actions: [
             IconButton(
@@ -63,7 +65,8 @@ class SettingsAppBar extends StatelessWidget {
           backgroundColor: appColors[value.mode][0],
           elevation: 0,
           centerTitle: true,
-          title: Text("Settings", style: TextStyle(color: appColors[value.mode][2])),
+          title: Text(languages[value.languages[value.language]]["settings"],
+              style: TextStyle(color: appColors[value.mode][2])),
           leading: IconButton(
               icon: Icon(Icons.close, size: 30, color: appColors[value.mode][2]),
               onPressed: () {

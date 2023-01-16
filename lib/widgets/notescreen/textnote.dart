@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import '../../models/applanguages.dart';
+
 class TextNote extends StatelessWidget {
   var value;
   var index;
@@ -16,8 +18,8 @@ class TextNote extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         maxLines: null,
         controller: TextEditingController(text: value.noteBody[index][1]),
-        decoration: const InputDecoration(
-            labelText: "Your note here...",
+        decoration: InputDecoration(
+            labelText: languages[value.languages[value.language]]["textnote"],
             labelStyle: TextStyle(color: Colors.brown),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: InputBorder.none),

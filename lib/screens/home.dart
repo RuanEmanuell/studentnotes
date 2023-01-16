@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../controller/notecontroller.dart';
 import '../models/appcolors.dart';
+import '../models/applanguages.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                   color: appColors[value.mode][1],
                   child: value.notes.isEmpty
                       ? Center(
-                          child: Text("Your notes will be here...",
+                          child: Text(languages[value.languages[value.language]]["noteshere"],
                               style: TextStyle(color: appColors[value.mode][2])))
                       : SingleChildScrollView(
                           child: Column(

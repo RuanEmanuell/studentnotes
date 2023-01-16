@@ -155,7 +155,7 @@ class NoteController extends ChangeNotifier {
   //////////////App language, colors and notifications controllers
 
   var languages = ["English", "Português", "Español"];
-  var language = "";
+  var language = 0;
 
   var modes = ["Light Mode", "Dark Mode"];
   var mode = 0;
@@ -169,7 +169,7 @@ class NoteController extends ChangeNotifier {
   }
 
   void changeLanguage(i) {
-    language = languages[i];
+    language = i;
     notifyListeners();
   }
 

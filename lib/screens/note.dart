@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../controller/audiocontroller.dart';
 import '../controller/notecontroller.dart';
 
+import '../models/applanguages.dart';
 import '../widgets/general/appbar.dart';
 import '../widgets/general/delete.dart';
 import '../widgets/general/bigbutton.dart';
@@ -168,7 +169,7 @@ class NoteScreen extends StatelessWidget {
                                           child: Row(children: [
                                             ImageTypeBox(
                                               icon: Icons.camera_alt,
-                                              text: "Camera",
+                                              text: languages[value.languages[value.language]]["camera"],
                                               color: value.noteBody[0][1],
                                               onTap: () {
                                                 value.imageOption = ImageSource.camera;
@@ -178,7 +179,8 @@ class NoteScreen extends StatelessWidget {
                                             ),
                                             ImageTypeBox(
                                               icon: Icons.photo,
-                                              text: "Gallery",
+                                              text: languages[value.languages[value.language]]
+                                                  ["gallery"],
                                               color: value.noteBody[0][0],
                                               onTap: () {
                                                 value.imageOption = ImageSource.gallery;

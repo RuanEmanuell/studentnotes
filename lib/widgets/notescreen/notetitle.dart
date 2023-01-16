@@ -1,5 +1,7 @@
 import "package:flutter/material.dart";
 
+import '../../models/applanguages.dart';
+
 class NoteTitle extends StatelessWidget {
   var value;
 
@@ -13,8 +15,8 @@ class NoteTitle extends StatelessWidget {
         margin: EdgeInsets.only(left: screenWidth / 25),
         child: TextFormField(
           controller: TextEditingController(text: value.noteName),
-          decoration: const InputDecoration(
-              labelText: "Note Title",
+          decoration: InputDecoration(
+              labelText: languages[value.languages[value.language]]["notetitle"],
               labelStyle: TextStyle(color: Colors.brown),
               floatingLabelBehavior: FloatingLabelBehavior.never,
               border: InputBorder.none),

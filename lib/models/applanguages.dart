@@ -15,7 +15,7 @@ Map languages = {
     "notetitle": "Note Title",
     "textnote": "Your note here..."
   },
-  "Portuguese": {
+  "Português": {
     "noteshere": "Suas notas estarão aqui...",
     "camera": "Câmera",
     "gallery": "Galeria",

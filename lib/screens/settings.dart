@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../controller/notecontroller.dart';
 import '../models/appcolors.dart';
+import '../models/applanguages.dart';
 import '../widgets/general/appbar.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -33,7 +34,8 @@ class SettingsScreen extends StatelessWidget {
                                           Container(
                                             margin: const EdgeInsets.all(20),
                                             alignment: Alignment.centerLeft,
-                                            child: Text("Language",
+                                            child: Text(
+                                                languages[value.languages[value.language]]["language"],
                                                 style: TextStyle(
                                                     color: appColors[value.mode][2],
                                                     fontWeight: FontWeight.bold,
@@ -59,7 +61,8 @@ class SettingsScreen extends StatelessWidget {
                                             child: Container(
                                               margin: const EdgeInsets.all(20),
                                               alignment: Alignment.centerRight,
-                                              child: Text("SELECT",
+                                              child: Text(
+                                                  languages[value.languages[value.language]]["select"],
                                                   style: TextStyle(
                                                       color: Colors.blue, fontSize: screenWidth / 20)),
                                             ),
@@ -71,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Row(children: [
                         Icon(Icons.language, color: appColors[value.mode][2], size: screenWidth / 15),
                         SizedBox(width: screenWidth / 20),
-                        Text("Language",
+                        Text(languages[value.languages[value.language]]["language"],
                             style:
                                 TextStyle(color: appColors[value.mode][2], fontSize: screenWidth / 22)),
                         SizedBox(height: screenHeight / 10)
@@ -93,7 +96,8 @@ class SettingsScreen extends StatelessWidget {
                                           Container(
                                             margin: const EdgeInsets.all(20),
                                             alignment: Alignment.centerLeft,
-                                            child: Text("Appearance",
+                                            child: Text(
+                                                languages[value.languages[value.language]]["appearance"],
                                                 style: TextStyle(
                                                     color: appColors[value.mode][2],
                                                     fontWeight: FontWeight.bold,
@@ -119,7 +123,8 @@ class SettingsScreen extends StatelessWidget {
                                             child: Container(
                                               margin: const EdgeInsets.all(20),
                                               alignment: Alignment.centerRight,
-                                              child: Text("SELECT",
+                                              child: Text(
+                                                  languages[value.languages[value.language]]["select"],
                                                   style: TextStyle(
                                                       color: Colors.blue, fontSize: screenWidth / 20)),
                                             ),
@@ -131,7 +136,7 @@ class SettingsScreen extends StatelessWidget {
                       child: Row(children: [
                         Icon(Icons.palette, color: appColors[value.mode][2], size: screenWidth / 15),
                         SizedBox(width: screenWidth / 20),
-                        Text("Apperance",
+                        Text(languages[value.languages[value.language]]["appearance"],
                             style:
                                 TextStyle(color: appColors[value.mode][2], fontSize: screenWidth / 22)),
                         SizedBox(height: screenHeight / 10)
@@ -145,7 +150,7 @@ class SettingsScreen extends StatelessWidget {
             color: appColors[value.mode][1],
             height: screenHeight / 10,
             child: Center(
-              child: Text("Version 1.0.0",
+              child: Text(languages[value.languages[value.language]]["version"],
                   style: TextStyle(fontSize: screenWidth / 20, color: appColors[value.mode][2])),
             )),
       ),
