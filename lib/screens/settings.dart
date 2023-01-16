@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-import '../controller/interfacecontroller.dart';
+import '../controller/notecontroller.dart';
 import '../models/appcolors.dart';
 import '../widgets/general/appbar.dart';
 
@@ -12,7 +12,7 @@ class SettingsScreen extends StatelessWidget {
     var screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: PreferredSize(preferredSize: Size.fromHeight(screenHeight / 12), child: SettingsAppBar()),
-      body: Consumer<InterfaceController>(
+      body: Consumer<NoteController>(
         builder: (context, value, child) => Container(
             color: appColors[value.mode][1],
             child: Column(
@@ -49,7 +49,7 @@ class SettingsScreen extends StatelessWidget {
                                                     activeColor: Colors.blue,
                                                     onChanged: ((newValue) {
                                                       setState(() {
-                                                        value.language = i;
+                                                        value.changeLanguage(i);
                                                       });
                                                     }))),
                                           InkWell(
@@ -140,7 +140,7 @@ class SettingsScreen extends StatelessWidget {
               ],
             )),
       ),
-      bottomNavigationBar: Consumer<InterfaceController>(
+      bottomNavigationBar: Consumer<NoteController>(
         builder: (context, value, child) => Container(
             color: appColors[value.mode][1],
             height: screenHeight / 10,

@@ -8,6 +8,9 @@ import 'package:provider/provider.dart';
 import 'audiocontroller.dart';
 
 class NoteController extends ChangeNotifier {
+
+  //////////////Notes variables
+
   String noteName = "";
 
   List noteBody = [];
@@ -23,6 +26,8 @@ class NoteController extends ChangeNotifier {
   var imageOption = ImageSource.gallery;
 
   late ScrollController scrollController;
+
+  //////////////Notes functions
 
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
@@ -146,5 +151,31 @@ class NoteController extends ChangeNotifier {
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 750),
     );
+  }
+
+  //////////////App language, colors and notifications controllers
+
+  var languages = ["English", "Português", "Español"];
+  var language = "";
+
+  var modes = ["Light Mode", "Dark Mode"];
+  var mode = 0;
+
+  var notifications = ["On", "Off"];
+  var notification = 0;
+
+  void changeMode(i) {
+    mode = i;
+    notifyListeners();
+  }
+
+  void changeLanguage(i) {
+    language = languages[i];
+    notifyListeners();
+  }
+
+  void changeNotification(i) {
+    notification = i;
+    notifyListeners();
   }
 }
