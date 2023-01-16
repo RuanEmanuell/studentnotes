@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'audiocontroller.dart';
 
 class NoteController extends ChangeNotifier {
-
   //////////////Notes variables
 
   String noteName = "";

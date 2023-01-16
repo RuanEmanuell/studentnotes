@@ -1,0 +1,50 @@
+Map languages = {
+  "English": {
+    "noteshere": "Your notes will be here...",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "language": "Language",
+    "select": "SELECIONAR",
+    "appearance": "Appearance",
+    "version": "Version 1.0.0",
+    "studentnotes": "StudentNotes",
+    "vip": "VIP",
+    "settings": "Settings",
+    "checkboxname": "Choose a name to your check box",
+    "checkname": "Add check",
+    "notetitle": "Note Title",
+    "textnote": "Your note here..."
+  },
+  "Portuguese": {
+    "noteshere": "Suas notas estarão aqui...",
+    "camera": "Câmera",
+    "gallery": "Galeria",
+    "language": "Idioma",
+    "select": "SELECIONAR",
+    "appearance": "Aparência",
+    "version": "Versão 1.0.0",
+    "studentnotes": "StudentNotes",
+    "vip": "VIP",
+    "settings": "Configurações",
+    "checkboxname": "Escolha um nome para seu check",
+    "checkname": "Adicionar check",
+    "notetitle": "Título da nota",
+    "textnote": "Sua nota aqui..."
+  },
+  "Español": {
+    "noteshere": "Tus notas estarán aquí...",
+    "camera": "Cámara",
+    "gallery": "Galeria",
+    "language": "Idioma",
+    "select": "SELECCIONAR",
+    "appearance": "Apariencia",
+    "version": "Versión 1.0.0",
+    "studentnotes": "StudentNotes",
+    "vip": "VIP",
+    "settings": "Configuraciones",
+    "checkboxname": "Elija un nombre para su check",
+    "checkname": "Adicionar check",
+    "notetitle": "Título de la nota",
+    "textnote": "Tu nota aqui..."
+  }
+};
