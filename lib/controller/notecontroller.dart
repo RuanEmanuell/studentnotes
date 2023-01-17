@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:alarme/models/notecolors.dart';
 import "package:flutter/material.dart";
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -31,12 +32,14 @@ class NoteController extends ChangeNotifier {
   void createAction() {
     noteDate = "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
     notes.add([noteName, noteBody, noteDate]);
+    updateDatabase();
     notifyListeners();
   }
 
   void loadNoteAction(index) {
     noteName = notes[index][0];
     noteBody = notes[index][1];
+    updateDatabase();
     notifyListeners();
   }
 
@@ -44,11 +47,13 @@ class NoteController extends ChangeNotifier {
     notes[index][0] = noteName;
     notes[index][1] = noteBody;
     notes[index][2] = noteDate;
+    updateDatabase();
     notifyListeners();
   }
 
   void removeAction(index) {
     notes.remove(notes[index]);
+    updateDatabase();
     notifyListeners();
   }
 
@@ -176,5 +181,19 @@ class NoteController extends ChangeNotifier {
   void changeNotification(i) {
     notification = i;
     notifyListeners();
+  }
+
+  //Data controller
+  void openBox() async {
+    await Hive.openBox("notebox");
+    if (Hive.box("notebox").isNotEmpty) {
+      notes = Hive.box("notebox").get("notelist");
+    } else {
+      notes = [];
+    }
+  }
+
+  void updateDatabase() async {
+    await Hive.box("notebox").put("notelist", notes);
   }
 }

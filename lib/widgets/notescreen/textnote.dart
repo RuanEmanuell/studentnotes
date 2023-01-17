@@ -20,7 +20,7 @@ class TextNote extends StatelessWidget {
         controller: TextEditingController(text: value.noteBody[index][1]),
         decoration: InputDecoration(
             labelText: languages[value.languages[value.language]]["textnote"],
-            labelStyle: TextStyle(color: Colors.brown),
+            labelStyle: const TextStyle(color: Colors.brown),
             floatingLabelBehavior: FloatingLabelBehavior.never,
             border: InputBorder.none),
         onChanged: (newValue) {

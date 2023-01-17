@@ -42,7 +42,7 @@ class HomeAppBar extends StatelessWidget {
                       BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(10)),
                   child: Center(
                     child: Text(languages[value.languages[value.language]]["vip"],
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                        style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                   ))),
           actions: [
             IconButton(

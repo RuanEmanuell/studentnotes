@@ -17,7 +17,7 @@ class NoteTitle extends StatelessWidget {
           controller: TextEditingController(text: value.noteName),
           decoration: InputDecoration(
               labelText: languages[value.languages[value.language]]["notetitle"],
-              labelStyle: TextStyle(color: Colors.brown),
+              labelStyle: const TextStyle(color: Colors.brown),
               floatingLabelBehavior: FloatingLabelBehavior.never,
               border: InputBorder.none),
           style: const TextStyle(fontSize: 25),
